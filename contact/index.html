@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="id">
+<!DOCTYPE html><html lang="id">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -18,9 +17,6 @@
       --accent: #4f46e5;
       --card: #1e293b;
       --ring: rgba(79, 70, 229, 0.35);
-      --ok: #22c55e;
-      --warn: #f59e0b;
-      --err: #ef4444;
     }
     * { box-sizing: border-box; }
     html, body { height: 100%; margin: 0; font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--fg); display: flex; flex-direction: column; }
@@ -38,29 +34,17 @@
     .hero h1 { font-family: 'Playfair Display', serif; font-weight: 800; letter-spacing: 0.2px; font-size: clamp(2rem, 5.5vw, 3.2rem); margin: 0 0 .5rem; }
     .hero p { color: var(--muted); max-width: 720px; margin: .25rem auto 0; }
 
-    .wrap { display: grid; grid-template-columns: 1fr; gap: 1rem; padding: 1rem; }
-    @media (min-width: 860px) { .wrap { grid-template-columns: 2fr 1fr; } }
+    .profile-pic {
+      width: 96px;
+      height: 96px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      display: block;
+      margin: 0 auto 1rem auto;
+    }
 
     .card { background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01)); border: 1px solid rgba(226,232,240,.08); border-radius: 14px; padding: 1rem; }
-
-    .field { margin-bottom: .9rem; }
-    .label { display:block; margin-bottom:.35rem; font-weight:600; }
-    .input, .textarea { width:100%; background: #0b1220; color: var(--fg); border:1px solid rgba(226,232,240,.12); border-radius: 10px; padding: .7rem .8rem; font-size: 1rem; outline: none; }
-    .input:focus, .textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 6px var(--ring); }
-    .textarea { min-height: 140px; resize: vertical; }
-
-    .row { display:grid; gap:.8rem; grid-template-columns: 1fr; }
-    @media (min-width: 580px) { .row { grid-template-columns: 1fr 1fr; } }
-
-    .hint { color: var(--muted); font-size:.9rem; margin-top:.25rem; }
-
-    .btn { display:inline-flex; align-items:center; justify-content:center; gap:.5rem; border:1px solid var(--accent); border-radius: 10px; padding:.6rem .9rem; font-weight:600; cursor:pointer; background: transparent; color: var(--fg); }
-    .btn:hover { transform: translateY(-1px); }
-
-    .status { margin-top:.75rem; font-size:.95rem; }
-    .status.ok { color: var(--ok); }
-    .status.err { color: var(--err); }
-
     .list { list-style:none; padding:0; margin:.2rem 0 0; }
     .list li { display:flex; align-items:center; gap:.6rem; padding:.5rem 0; border-bottom:1px dashed rgba(226,232,240,.08); }
 
@@ -76,71 +60,45 @@
     <div class="brand">yujiwh</div>
     <nav>
       <a href="/">Home</a>
-      <a href="/maintenance">Blog</a>
+      <a href="/blog">Blog</a>
       <a href="/contact" aria-current="page">Contact</a>
     </nav>
   </header>
 
   <main>
-    <section class="hero" aria-labelledby="hero-title">  
+    <section class="hero" aria-labelledby="hero-title">
       <img src="https://yujiwh.xyz/fprofil.jpg" alt="Foto yujiwh" class="profile-pic">
-  <h1 id="hero-title">yujiwh</h1>  
-  <p>Feel free to reach out if you'd like to chat privately!</p>
-</section>
-      <!-- Info kontak & sosial -->
-      <aside class="card" aria-labelledby="info-title">
-        <h2 id="info-title" style="margin:0 0 .8rem; font-family:'Playfair Display',serif; font-size:1.4rem;">Contact</h2>
-        <ul class="list">
-          <li>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-  <path d="M2 4h20v16H2V4zm2 2v1.17l8 5.33 8-5.33V6H4zm16 12v-7.17l-8 5.33-8-5.33V18h16z"/>
-</svg>
-            Email:<a href="mailto:mail@yujiwh.xyz">mail@yujiwh.xyz</a>
-          </li>
-          <li>
-            <svg width="16" height="16" viewBox="0 0 256 256" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-  <path d="M128 20a108 108 0 0 0-86 172l-14 38 40-14a108 108 0 1 0 60-196zm0 200a92 92 0 0 1-49-14l-2-1-23 8 8-23-1-2a92 92 0 1 1 67 32z"/>
-</svg>
-            Signal:<a href="https://signal.me/#eu/zojSU-1NVtkaqnEKVQZvTLxpOBTukHC04744YYbnil23DhYJJatEH7HCaKzakfJZ" target="_blank" rel="noopener">yujiwh.01</a>[secure, private]
-          </li>
-          <li>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-  <path d="M9.04 15.19 8.85 18.5c.36 0 .52-.15.71-.33l1.71-1.63 3.55 2.59c.65.36 1.11.17 1.28-.6l2.33-10.93c.21-.96-.35-1.34-.98-1.1l-13.66 5.27c-.93.37-.91.91-.16 1.15l3.49 1.09 8.11-5.11c.38-.26.73-.12.45.16l-6.93 6.17z"/>
-</svg>
-            Telegram:<a href="https://t.me/chimic" target="_blank" rel="noopener">yujiwh</a>
-          </li>
-        </ul>
-      </aside>
-    </div>
+      <h1 id="hero-title">yujiwh</h1>
+      <p>Feel free to reach out if you'd like to chat privately!</p>
+    </section>
+
+    <aside class="card" aria-labelledby="info-title">
+      <h2 id="info-title" style="margin:0 0 .8rem; font-family:'Playfair Display',serif; font-size:1.4rem;">Contact</h2>
+      <ul class="list">
+        <li>📧 Email: <a href="mailto:mail@yujiwh.xyz">mail@yujiwh.xyz</a></li>
+        <li>📱 Signal: <a href="https://signal.me/#eu/zojSU-1NVtkaqnEKVQZvTLxpOBTukHC04744YYbnil23DhYJJatEH7HCaKzakfJZ" target="_blank" rel="noopener">yujiwh.01</a> [secure, private]</li>
+        <li>💬 Telegram: <a href="https://t.me/chimic" target="_blank" rel="noopener">yujiwh</a></li>
+      </ul>
+    </aside>
   </main>
 
   <div class="footer">
     <div>© <span id="year"></span> yujiwh</div>
     <div class="social" aria-label="Sosial">
-      <a class="icon" href="https://x.com/yujiwh" target="_blank" rel="noopener" aria-label="X.com">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2H21.756L14.35 10.56L23 22H16.385L10.924 14.772L4.637 22H1.122L9.06 12.84L1 2H7.802L12.685 8.59L18.244 2ZM17.09 19.984H18.91L7.044 3.888H5.078L17.09 19.984Z"/></svg>
-        <span class="sr-only">Twitter</span>
+      <a class="icon" href="https://x.com/yujiwh" target="_blank" rel="noopener" aria-label="Twitter">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M22.46 6c-.77.35-1.6.58-2.46.69a4.3 4.3 0 001.88-2.37 8.59 8.59 0 01-2.72 1.04 4.28 4.28 0 00-7.3 3.9A12.15 12.15 0 013 4.8a4.28 4.28 0 001.33 5.71 4.25 4.25 0 01-1.94-.54v.05a4.28 4.28 0 003.44 4.19 4.28 4.28 0 01-1.93.07 4.28 4.28 0 004 2.97A8.6 8.6 0 012 19.54a12.14 12.14 0 006.56 1.92c7.88 0 12.2-6.53 12.2-12.2l-.01-.56A8.7 8.7 0 0024 5.1a8.49 8.49 0 01-2.54.7z"/></svg>
       </a>
       <a class="icon" href="https://instagram.com/yujiwh" target="_blank" rel="noopener" aria-label="Instagram">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.5" y2="6.5"/></svg>
-        <span class="sr-only">Instagram</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.5" y2="6.5"/></svg>
       </a>
       <a class="icon" href="https://zora.co/@yujiwh" target="_blank" rel="noopener" aria-label="Zora">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-     xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-  <rect x="3" y="3" width="7" height="7"/>
-  <rect x="14" y="3" width="7" height="7"/>
-  <rect x="14" y="14" width="7" height="7"/>
-  <rect x="3" y="14" width="7" height="7"/>
-</svg>
-        <span class="sr-only">Zora</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
       </a>
     </div>
   </div>
-<script>  
-    // Tahun dinamis  
+
+  <script>
     document.getElementById('year').textContent = new Date().getFullYear();
-</script>
+  </script>
 </body>
 </html>
