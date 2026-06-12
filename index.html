@@ -7,134 +7,86 @@
   <meta name="description" content="Penggiat privasi, enkripsi, dan desentralisasi. Membangun di persimpangan teknologi dan kebebasan digital.">
   <meta name="color-scheme" content="dark">
 
-  <!-- OG -->
   <meta property="og:title" content="yujiwh">
   <meta property="og:description" content="Creator, Builder, Privacy-minded.">
   <meta property="og:url" content="https://yujiwh.github.io">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://yujiwh.github.io/fprofil.jpg">
 
-  <!-- Favicon – amber Y mark -->
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23090d16'/%3E%3Cpath d='M18 18l14 14 14-14' stroke='%23d97706' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M32 32v14' stroke='%23d97706' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230f172a'/%3E%3Cpath d='M20 18l12 14 12-14' stroke='%23e2e8f0' stroke-width='6' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M32 32v14' stroke='%23e2e8f0' stroke-width='6' stroke-linecap='round'/%3E%3C/svg%3E">
 
-  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
   <style>
-    /* ===== Design Tokens ===== */
     :root {
-      --bg: #090d16;
-      --bg-alt: #0f172a;
+      --bg: #0b1120;
       --fg: #e2e8f0;
-      --muted: #94a3b8;
-      --accent: #d97706;
-      --accent-soft: rgba(217, 119, 6, 0.10);
-      --accent-border: rgba(217, 119, 6, 0.20);
-      --card: #101828;
-      --card-border: rgba(148, 163, 184, 0.06);
-      --radius: 12px;
+      --muted: #64748b;
+      --accent: #6366f1;
+      --accent-glow: rgba(99, 102, 241, 0.12);
+      --accent-border: rgba(99, 102, 241, 0.2);
+      --card: #1a2332;
+      --border: rgba(148, 163, 184, 0.07);
+      --radius: 14px;
       --radius-sm: 8px;
     }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{min-height:100vh;font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--fg);line-height:1.65;-webkit-font-smoothing:antialiased}
+    a{color:var(--accent);text-decoration:none;transition:opacity .2s}
+    a:hover{opacity:.85}
+    ::selection{background:var(--accent);color:#fff}
+    .container{max-width:780px;margin:0 auto;padding:0 1.5rem}
 
-    /* ===== Reset ===== */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; scroll-padding-top: 5rem; }
-    body { min-height: 100vh; font-family: 'Inter', system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--fg); line-height: 1.65; -webkit-font-smoothing: antialiased; }
-    img { max-width: 100%; height: auto; }
-    a { color: var(--accent); text-decoration: none; }
-    a:hover { opacity: 0.85; }
-
-    ::selection { background: var(--accent); color: #fff; }
-
-    /* ===== Container ===== */
-    .container { max-width: 780px; margin: 0 auto; padding: 0 1.5rem; }
-
-    /* ===== Scroll Reveal ===== */
-    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.55s cubic-bezier(.22,1,.36,1), transform 0.55s cubic-bezier(.22,1,.36,1); }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal{opacity:0;transform:translateY(24px);transition:opacity .5s ease,transform .5s ease}
+    .reveal.visible{opacity:1;transform:translateY(0)}
 
     /* ===== Header ===== */
-    header { display: flex; justify-content: space-between; align-items: center; padding: 1.75rem 0 1.25rem; border-bottom: 1px solid var(--card-border); }
-    .brand { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1.2rem; letter-spacing: 0.3px; color: var(--fg); }
-    .brand span { color: var(--accent); }
-    nav { display: flex; gap: 1.5rem; align-items: center; }
-    nav a { position: relative; color: var(--muted); font-size: 0.9rem; font-weight: 500; padding-bottom: 2px; transition: color .2s; }
-    nav a::after { content: ''; position: absolute; left: 0; bottom: 0; width: 0; height: 2px; background: var(--accent); transition: width .25s ease; }
-    nav a:hover { color: var(--fg); }
-    nav a:hover::after, nav a.active::after { width: 100%; }
+    header{display:flex;justify-content:space-between;align-items:center;padding:1.75rem 0 1.25rem;border-bottom:1px solid var(--border)}
+    .brand{font-family:'Playfair Display',serif;font-weight:700;font-size:1.25rem;color:var(--fg)}
+    .brand span{color:var(--accent)}
+    nav{display:flex;gap:1.5rem;align-items:center}
+    nav a{position:relative;color:var(--muted);font-size:.9rem;font-weight:500;padding-bottom:2px;transition:color .2s}
+    nav a::after{content:'';position:absolute;left:0;bottom:0;width:0;height:2px;background:var(--accent);transition:width .25s ease}
+    nav a:hover{color:var(--fg)}
+    nav a:hover::after,nav a.active::after{width:100%}
 
     /* ===== Hero ===== */
-    .hero { padding: 5.5rem 0 3.5rem; text-align: center; position: relative; overflow: hidden; }
-    .hero-glow { position: absolute; top: -30%; left: 50%; transform: translateX(-50%); width: 650px; height: 650px; background: radial-gradient(circle, rgba(217,119,6,0.05) 0%, transparent 65%); pointer-events: none; }
-    .hero-badge { display: inline-flex; align-items: center; gap: 6px; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: var(--accent); background: var(--accent-soft); border: 1px solid var(--accent-border); padding: 0.35rem 0.9rem; border-radius: 999px; margin-bottom: 1.25rem; }
-    .hero h1 { font-family: 'Playfair Display', serif; font-weight: 700; font-size: clamp(3rem, 8vw, 4.5rem); line-height: 1.05; margin-bottom: 0.75rem; }
-    .hero .gradient { background: linear-gradient(135deg, var(--fg) 0%, var(--accent) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-    .hero p { color: var(--muted); max-width: 520px; margin: 0 auto; font-size: 1.05rem; line-height: 1.7; }
-    .hero-tags { display: flex; gap: 0.6rem; justify-content: center; flex-wrap: wrap; margin-top: 1.5rem; }
-    .hero-tag { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; padding: 0.35rem 0.8rem; border-radius: 999px; background: var(--accent-soft); color: var(--accent); border: 1px solid var(--accent-border); letter-spacing: 0.2px; }
+    .hero{padding:5rem 0 2.5rem;text-align:center;position:relative}
+    .hero-glow{position:absolute;top:-30%;left:50%;transform:translateX(-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(99,102,241,0.05) 0%,transparent 65%);pointer-events:none}
+    .hero-badge{display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--accent);background:var(--accent-glow);border:1px solid var(--accent-border);padding:.3rem .85rem;border-radius:999px;margin-bottom:1.25rem;letter-spacing:.3px}
+    .hero h1{font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(2.8rem,7vw,4rem);line-height:1.08;margin-bottom:.75rem}
+    .hero .gradient{background:linear-gradient(135deg,var(--fg) 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .hero p{color:var(--muted);max-width:520px;margin:0 auto;font-size:1.05rem;line-height:1.7}
+    .hero-tags{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap;margin-top:1.5rem}
+    .hero-tag{font-family:'JetBrains Mono',monospace;font-size:.75rem;padding:.3rem .8rem;border-radius:999px;background:var(--accent-glow);color:var(--accent);border:1px solid var(--accent-border)}
 
-    /* ===== Section ===== */
-    .section { padding: 3.5rem 0; }
-    .section-label { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--accent); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 0.35rem; }
-    .section-title { font-family: 'Playfair Display', serif; font-weight: 600; font-size: 1.5rem; margin-bottom: 1.75rem; }
+    /* ===== Intro / Bio ===== */
+    .intro{padding:2rem 0;text-align:center}
+    .intro p{color:var(--muted);font-size:.95rem;line-height:1.7;max-width:580px;margin:0 auto}
 
-    /* ===== About ===== */
-    .about-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
-    .about-card { background: var(--card); border: 1px solid var(--card-border); border-radius: var(--radius); padding: 1.35rem 1.4rem; transition: border-color .2s, transform .2s; }
-    .about-card:hover { border-color: var(--accent-border); transform: translateY(-3px); }
-    .about-card .icon-wrap { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border-radius: var(--radius-sm); background: var(--accent-soft); color: var(--accent); margin-bottom: 0.75rem; }
-    .about-card h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.3rem; }
-    .about-card p { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
-    .about-bio { color: var(--muted); font-size: 0.95rem; max-width: 600px; margin-bottom: 2rem; line-height: 1.7; }
-
-    /* ===== Featured Projects ===== */
-    .project-list { display: flex; flex-direction: column; gap: 0.85rem; }
-    .project-card { display: flex; align-items: center; gap: 1rem; background: var(--card); border: 1px solid var(--card-border); border-radius: var(--radius); padding: 1rem 1.25rem; transition: border-color .2s, transform .2s; }
-    .project-card:hover { border-color: var(--accent-border); transform: translateX(4px); }
-    .project-card .icon-wrap { width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: var(--radius-sm); background: var(--accent-soft); color: var(--accent); flex-shrink: 0; }
-    .project-card .info { flex: 1; min-width: 0; }
-    .project-card .name { font-weight: 600; font-size: 0.9rem; }
-    .project-card .desc { font-size: 0.8rem; color: var(--muted); line-height: 1.4; }
-    .project-card .arrow { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: var(--muted); flex-shrink: 0; transition: color .2s; }
-    .project-card:hover .arrow { color: var(--accent); }
-
-    .section-link { display: inline-flex; align-items: center; gap: 4px; margin-top: 1.25rem; font-size: 0.85rem; font-weight: 500; color: var(--muted); transition: color .2s; }
-    .section-link:hover { color: var(--accent); opacity: 1; }
-
-    /* ===== Principles ===== */
-    .principles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
-    .principle { background: var(--card); border: 1px solid var(--card-border); border-radius: var(--radius); padding: 1.35rem; text-align: center; }
-    .principle .num { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700; color: var(--accent); opacity: 0.35; line-height: 1; }
-    .principle h3 { font-size: 0.9rem; font-weight: 600; margin: 0.6rem 0 0.3rem; }
-    .principle p { font-size: 0.8rem; color: var(--muted); line-height: 1.5; }
-
-    /* ===== Contact ===== */
-    .contact-grid { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
-    .contact-btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.6rem 1.2rem; border-radius: 999px; background: var(--card); border: 1px solid var(--card-border); color: var(--fg); font-size: 0.85rem; font-weight: 500; transition: all .2s; }
-    .contact-btn:hover { background: var(--accent-soft); border-color: var(--accent-border); color: var(--fg); opacity: 1; }
-    .contact-btn svg { width: 16px; height: 16px; flex-shrink: 0; }
-
-    .contact-pgp { text-align: center; margin-top: 1.25rem; font-size: 0.8rem; color: var(--muted); }
-    .contact-pgp a { color: var(--muted); text-decoration: underline; text-underline-offset: 2px; }
-    .contact-pgp a:hover { color: var(--accent); }
+    /* ===== Explore ===== */
+    .explore-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;padding:1.5rem 0 3rem}
+    .explore-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem 1.25rem;text-align:center;transition:border-color .25s,transform .25s}
+    .explore-card:hover{border-color:var(--accent-border);transform:translateY(-3px)}
+    .explore-card .icon{width:40px;height:40px;display:flex;align-items:center;justify-content:center;margin:0 auto .75rem;border-radius:var(--radius-sm);background:var(--accent-glow);color:var(--accent)}
+    .explore-card h3{font-size:.95rem;font-weight:600;margin-bottom:.25rem}
+    .explore-card p{font-size:.8rem;color:var(--muted);line-height:1.5}
+    .explore-card .arrow{display:inline-block;margin-top:.6rem;font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--muted);transition:color .2s}
+    .explore-card:hover .arrow{color:var(--accent)}
 
     /* ===== Footer ===== */
-    footer { text-align: center; padding: 2.5rem 0; border-top: 1px solid var(--card-border); color: var(--muted); font-size: 0.8rem; margin-top: 1.5rem; }
-    footer a { color: var(--muted); }
-    footer a:hover { color: var(--accent); }
+    footer{text-align:center;padding:2.5rem 0;border-top:1px solid var(--border);color:var(--muted);font-size:.82rem}
+    footer a{color:var(--muted)}footer a:hover{color:var(--accent)}
 
     /* ===== Responsive ===== */
-    @media (max-width: 640px) {
-      header { flex-direction: column; gap: 0.75rem; text-align: center; padding: 1.25rem 0 1rem; }
-      nav { gap: 1.1rem; }
-      nav a { font-size: 0.85rem; }
-      .hero { padding: 3.5rem 0 2.5rem; }
-      .about-cards { grid-template-columns: 1fr; }
-      .principles { grid-template-columns: 1fr; }
-      .contact-grid { flex-direction: column; align-items: center; }
-      .contact-btn { width: 100%; max-width: 260px; justify-content: center; }
+    @media(max-width:640px){
+      header{flex-direction:column;gap:.75rem;text-align:center;padding:1.25rem 0 1rem}
+      nav{gap:1.1rem}nav a{font-size:.85rem}
+      .explore-grid{grid-template-columns:1fr}
+      .hero{padding:3.5rem 0 1.5rem}
     }
   </style>
 </head>
@@ -143,15 +95,15 @@
     <header>
       <a href="/" class="brand">yuji<span>wh</span></a>
       <nav>
-        <a href="#about">About</a>
-        <a href="#projects">Projects</a>
+        <a href="/" class="active">Home</a>
+        <a href="/projects/">Projects</a>
         <a href="/blog/">Blog</a>
-        <a href="#contact">Contact</a>
+        <a href="/contact/">Contact</a>
       </nav>
     </header>
 
-    <!-- ===== Hero ===== -->
-    <section class="hero" id="hero">
+    <!-- Hero -->
+    <section class="hero">
       <div class="hero-glow"></div>
       <div class="hero-badge reveal">✦ yujiwh</div>
       <h1 class="reveal"><span class="gradient">Creator. Builder.<br>Privacy-minded.</span></h1>
@@ -164,129 +116,44 @@
       </div>
     </section>
 
-    <!-- ===== About ===== -->
-    <section class="section" id="about">
-      <p class="section-label reveal">About</p>
-      <h2 class="section-title reveal">Tentang Saya</h2>
-      <p class="about-bio reveal">
-        Seorang builder dan privacy enthusiast. Lulusan Wuxi Institute of Technology.
-        Membangun tools, layanan, dan infrastruktur yang mementingkan kontrol dan privasi pengguna.
-        Percaya bahwa teknologi yang baik adalah yang sederhana, efektif, dan menghormati penggunanya.
-      </p>
-      <div class="about-cards">
-        <div class="about-card reveal">
-          <div class="icon-wrap"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
-          <h3>Security</h3>
-          <p>Menerapkan enkripsi, keamanan data, dan praktik privasi terbaik dalam setiap proyek.</p>
-        </div>
-        <div class="about-card reveal">
-          <div class="icon-wrap"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
-          <h3>Development</h3>
-          <p>Membangun tools dan infrastruktur yang memberi kontrol penuh ke pengguna.</p>
-        </div>
-        <div class="about-card reveal">
-          <div class="icon-wrap"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
-          <h3>Decentralization</h3>
-          <p>Mendukung ekosistem terdesentralisasi — dari PDS hingga protokol open source.</p>
-        </div>
-        <div class="about-card reveal">
-          <div class="icon-wrap"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg></div>
-          <h3>Privacy-first</h3>
-          <p>Privasi data adalah hak dasar. Setiap solusi dibangun dengan pertimbangan privasi sejak awal.</p>
-        </div>
-      </div>
-    </section>
+    <!-- Bio -->
+    <div class="intro reveal">
+      <p>Seorang builder dan privacy enthusiast. Lulusan Wuxi Institute of Technology. Membangun tools, layanan, dan infrastruktur yang mementingkan kontrol dan privasi pengguna — dari server hingga software.</p>
+    </div>
 
-    <!-- ===== Featured Projects ===== -->
-    <section class="section" id="projects">
-      <p class="section-label reveal">Projects</p>
-      <h2 class="section-title reveal">Proyek Pilihan</h2>
-      <div class="project-list">
-        <a class="project-card reveal" href="https://pds.yujiwh.xyz" target="_blank">
-          <div class="icon-wrap"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
-          <div class="info">
-            <div class="name">Bluesky PDS</div>
-            <div class="desc">Personal Data Server untuk hosting identitas sosial secara mandiri</div>
-          </div>
-          <span class="arrow">→</span>
-        </a>
-        <div class="project-card reveal">
-          <div class="icon-wrap"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
-          <div class="info">
-            <div class="name">9Router</div>
-            <div class="desc">Multi-model AI API gateway dengan berbagai combo model</div>
-          </div>
-          <span class="arrow">↗</span>
+    <!-- Explore -->
+    <div class="explore-grid">
+      <a class="explore-card reveal" href="/projects/">
+        <div class="icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
         </div>
-        <a class="project-card reveal" href="https://github.com/yujiwh/cleanup.sh" target="_blank">
-          <div class="icon-wrap"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg></div>
-          <div class="info">
-            <div class="name">cleanup.sh</div>
-            <div class="desc">Safe VPS cleanup tool untuk Ubuntu/Debian</div>
-          </div>
-          <span class="arrow">→</span>
-        </a>
-      </div>
-      <a class="section-link reveal" href="/projects/">Lihat semua proyek →</a>
-    </section>
-
-    <!-- ===== Principles ===== -->
-    <section class="section">
-      <p class="section-label reveal">Principles</p>
-      <h2 class="section-title reveal">Yang Saya Percayai</h2>
-      <div class="principles">
-        <div class="principle reveal">
-          <div class="num">01</div>
-          <h3>Privacy by Default</h3>
-          <p>Privasi bukan fitur tambahan — fondasi dari setiap keputusan teknis.</p>
+        <h3>Projects</h3>
+        <p>Lihat apa yang sedang saya kerjakan dan pelihara.</p>
+        <span class="arrow">→ Lihat Proyek</span>
+      </a>
+      <a class="explore-card reveal" href="/blog/">
+        <div class="icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
         </div>
-        <div class="principle reveal">
-          <div class="num">02</div>
-          <h3>Self-Sovereignty</h3>
-          <p>Kontrol atas data dan identitas sendiri adalah hak yang tidak bisa ditawar.</p>
+        <h3>Blog</h3>
+        <p>Catatan tentang privasi, teknologi, dan desentralisasi.</p>
+        <span class="arrow">→ Baca Blog</span>
+      </a>
+      <a class="explore-card reveal" href="/contact/">
+        <div class="icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
         </div>
-        <div class="principle reveal">
-          <div class="num">03</div>
-          <h3>Simple & Effective</h3>
-          <p>Solusi sederhana yang berfungsi lebih baik daripada sistem rumit yang rapuh.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== Contact ===== -->
-    <section class="section" id="contact">
-      <p class="section-label reveal" style="text-align:center;">Contact</p>
-      <h2 class="section-title reveal" style="text-align:center;">Temukan Saya</h2>
-      <div class="contact-grid">
-        <a class="contact-btn reveal" href="https://x.com/yujiwh" target="_blank">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2H21.756L14.35 10.56L23 22H16.385L10.924 14.772L4.637 22H1.122L9.06 12.84L1 2H7.802L12.685 8.59L18.244 2ZM17.09 19.984H18.91L7.044 3.888H5.078L17.09 19.984Z"/></svg>
-          X (Twitter)
-        </a>
-        <a class="contact-btn reveal" href="https://instagram.com/yujiwh" target="_blank">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.5" y2="6.5"/></svg>
-          Instagram
-        </a>
-        <a class="contact-btn reveal" href="https://github.com/yujiwh" target="_blank">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.335-1.755-1.335-1.755-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12 24 5.37 18.63 0 12 0z"/></svg>
-          GitHub
-        </a>
-        <a class="contact-btn reveal" href="mailto:yujiwh@protonmail.com">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-          Email
-        </a>
-      </div>
-      <p class="contact-pgp reveal">
-        ▲ <a href="/.well-known/pgp.txt" target="_blank">PGP Key</a> tersedia untuk komunikasi terenkripsi
-      </p>
-    </section>
+        <h3>Contact</h3>
+        <p>Terhubung via media sosial, email, atau PGP.</p>
+        <span class="arrow">→ Hubungi</span>
+      </a>
+    </div>
 
     <footer>
       <p>© <span id="year"></span> yujiwh — Dibangun dengan privasi sebagai prioritas</p>
-      <p style="margin-top:0.4rem;">
+      <p style="margin-top:.35rem;">
         <a href="https://x.com/yujiwh" target="_blank">X</a> •
-        <a href="https://instagram.com/yujiwh" target="_blank">Instagram</a> •
         <a href="https://github.com/yujiwh" target="_blank">GitHub</a> •
-        <a href="https://pds.yujiwh.xyz" target="_blank">PDS</a> •
         <a href="mailto:yujiwh@protonmail.com">Email</a>
       </p>
     </footer>
@@ -294,21 +161,10 @@
 
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
-
-    // Scroll reveal
     const observer = new IntersectionObserver(e => {
-      e.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
-    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+      e.forEach(entry => { if(entry.isIntersecting) entry.target.classList.add('visible'); });
+    }, { threshold: .08, rootMargin: '0px 0px -40px 0px' });
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-    // Active nav link on scroll
-    const sections = document.querySelectorAll('section[id]');
-    const navLinks = document.querySelectorAll('nav a[href^="#"]');
-    window.addEventListener('scroll', () => {
-      let current = '';
-      sections.forEach(s => { if (window.scrollY >= s.offsetTop - 250) current = s.id; });
-      navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + current));
-    });
   </script>
 </body>
 </html>
