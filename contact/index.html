@@ -4,11 +4,152 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Contact — yujiwh</title>
-  <meta name="description" content="Redirecting..." />
-  <meta http-equiv="refresh" content="0; url=/#contact">
-  <link rel="canonical" href="https://yujiwh.github.io/#contact" />
+  <meta name="description" content="Hubungi yujiwh — via email, media sosial, atau PGP terenkripsi.">
+  <meta name="color-scheme" content="dark">
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23090d16'/%3E%3Cpath d='M18 18l14 14 14-14' stroke='%23d97706' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M32 32v14' stroke='%23d97706' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #090d16; --bg-alt: #0f172a; --fg: #e2e8f0; --muted: #94a3b8;
+      --accent: #d97706; --accent-soft: rgba(217,119,6,0.10);
+      --accent-border: rgba(217,119,6,0.20);
+      --card: #101828; --card-border: rgba(148,163,184,0.06);
+      --radius: 12px; --radius-sm: 8px;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{min-height:100vh;font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--fg);line-height:1.65;-webkit-font-smoothing:antialiased}
+    a{color:var(--accent);text-decoration:none}a:hover{opacity:.85}
+    ::selection{background:var(--accent);color:#fff}
+    .container{max-width:780px;margin:0 auto;padding:0 1.5rem}
+
+    .reveal{opacity:0;transform:translateY(28px);transition:opacity .55s cubic-bezier(.22,1,.36,1),transform .55s cubic-bezier(.22,1,.36,1)}
+    .reveal.visible{opacity:1;transform:translateY(0)}
+
+    header{display:flex;justify-content:space-between;align-items:center;padding:1.75rem 0 1.25rem;border-bottom:1px solid var(--card-border)}
+    .brand{font-family:'Playfair Display',serif;font-weight:700;font-size:1.2rem;letter-spacing:.3px;color:var(--fg)}
+    .brand span{color:var(--accent)}
+    nav{display:flex;gap:1.5rem;align-items:center}
+    nav a{position:relative;color:var(--muted);font-size:.9rem;font-weight:500;padding-bottom:2px;transition:color .2s}
+    nav a::after{content:'';position:absolute;left:0;bottom:0;width:0;height:2px;background:var(--accent);transition:width .25s ease}
+    nav a:hover{color:var(--fg)}nav a:hover::after,nav a.active::after{width:100%}
+
+    .page-header{padding:4rem 0 2rem;text-align:center}
+    .page-header h1{font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(2rem,5vw,3rem)}
+    .page-header p{color:var(--muted);margin-top:.5rem;font-size:1rem;max-width:500px;margin-left:auto;margin-right:auto}
+
+    .contact-section{margin-bottom:2.5rem}
+    .contact-section h2{font-family:'Playfair Display',serif;font-weight:600;font-size:1.2rem;margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}
+    .contact-section h2 .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);flex-shrink:0}
+
+    .social-list{display:grid;grid-template-columns:1fr 1fr;gap:.85rem}
+    .social-card{display:flex;align-items:center;gap:.75rem;background:var(--card);border:1px solid var(--card-border);border-radius:var(--radius);padding:1rem 1.25rem;transition:border-color .2s,transform .2s}
+    .social-card:hover{border-color:var(--accent-border);transform:translateY(-2px)}
+    .social-card .icon{width:36px;height:36px;display:flex;align-items:center;justify-content:center;border-radius:var(--radius-sm);background:var(--accent-soft);color:var(--accent);flex-shrink:0}
+    .social-card .name{font-weight:600;font-size:.9rem}
+    .social-card .handle{font-size:.8rem;color:var(--muted)}
+    .social-card svg{width:18px;height:18px}
+
+    .pgp-card{background:var(--card);border:1px solid var(--accent-border);border-radius:var(--radius);padding:1.25rem 1.5rem;text-align:center}
+    .pgp-card h3{font-size:.95rem;font-weight:600;margin-bottom:.3rem}
+    .pgp-card p{color:var(--muted);font-size:.85rem;line-height:1.6}
+    .pgp-card a{color:var(--accent)}
+
+    footer{text-align:center;padding:2.5rem 0;border-top:1px solid var(--card-border);color:var(--muted);font-size:.8rem;margin-top:1.5rem}
+    footer a{color:var(--muted)}footer a:hover{color:var(--accent)}
+
+    @media(max-width:640px){
+      header{flex-direction:column;gap:.75rem;text-align:center;padding:1.25rem 0 1rem}
+      nav{gap:1.1rem}nav a{font-size:.85rem}
+      .social-list{grid-template-columns:1fr}
+    }
+  </style>
 </head>
-<body style="background:#0b1120;color:#64748b;display:flex;align-items:center;justify-content:center;min-height:100vh;font-family:system-ui,sans-serif;">
-  <p>Redirecting to <a href="/#contact" style="color:#6366f1;">/#contact</a>...</p>
+<body>
+  <div class="container">
+    <header>
+      <a href="/" class="brand">yuji<span>wh</span></a>
+      <nav>
+        <a href="/">Home</a>
+        <a href="/projects/">Projects</a>
+        <a href="/blog/">Blog</a>
+        <a href="/contact/" class="active">Contact</a>
+      </nav>
+    </header>
+
+    <div class="page-header reveal">
+      <h1>Contact</h1>
+      <p>Temukan saya di berbagai platform. Feel free to reach out — untuk kolaborasi, diskusi, atau sekadar ngobrol.</p>
+    </div>
+
+    <!-- Social -->
+    <div class="contact-section">
+      <h2 class="reveal"><span class="dot"></span> Media Sosial</h2>
+      <div class="social-list">
+        <a class="social-card reveal" href="https://x.com/yujiwh" target="_blank">
+          <div class="icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2H21.756L14.35 10.56L23 22H16.385L10.924 14.772L4.637 22H1.122L9.06 12.84L1 2H7.802L12.685 8.59L18.244 2ZM17.09 19.984H18.91L7.044 3.888H5.078L17.09 19.984Z"/></svg></div>
+          <div>
+            <div class="name">X (Twitter)</div>
+            <div class="handle">@yujiwh</div>
+          </div>
+        </a>
+        <a class="social-card reveal" href="https://instagram.com/yujiwh" target="_blank">
+          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.5" y2="6.5"/></svg></div>
+          <div>
+            <div class="name">Instagram</div>
+            <div class="handle">@yujiwh</div>
+          </div>
+        </a>
+        <a class="social-card reveal" href="https://github.com/yujiwh" target="_blank">
+          <div class="icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.335-1.755-1.335-1.755-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12 24 5.37 18.63 0 12 0z"/></svg></div>
+          <div>
+            <div class="name">GitHub</div>
+            <div class="handle">yujiwh</div>
+          </div>
+        </a>
+        <a class="social-card reveal" href="mailto:yujiwh@protonmail.com">
+          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+          <div>
+            <div class="name">Email</div>
+            <div class="handle">yujiwh@protonmail.com</div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- PGP -->
+    <div class="contact-section">
+      <h2 class="reveal"><span class="dot"></span> Komunikasi Terenkripsi</h2>
+      <div class="pgp-card reveal">
+        <h3>PGP / GPG Key</h3>
+        <p>
+          Untuk komunikasi yang lebih aman, saya menerima pesan terenkripsi via PGP.
+          Key tersedia di <a href="/.well-known/pgp.txt" target="_blank">/.well-known/pgp.txt</a>
+          dan <a href="/.well-known/keybase.txt" target="_blank">Keybase</a>.
+        </p>
+      </div>
+    </div>
+
+    <footer>
+      <p>© <span id="year"></span> yujiwh</p>
+      <p style="margin-top:.4rem;">
+        <a href="https://x.com/yujiwh" target="_blank">X</a> •
+        <a href="https://github.com/yujiwh" target="_blank">GitHub</a> •
+        <a href="mailto:yujiwh@protonmail.com">Email</a>
+      </p>
+    </footer>
+  </div>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    const observer = new IntersectionObserver(e => {
+      e.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
 </body>
 </html>

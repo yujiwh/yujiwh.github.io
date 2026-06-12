@@ -4,115 +4,114 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Blog — yujiwh</title>
-  <meta name="description" content="Catatan tentang privasi, teknologi, dan desentralisasi oleh yujiwh." />
-  <meta name="color-scheme" content="dark" />
-  <meta name="robots" content="noindex, nofollow" />
+  <meta name="description" content="Catatan tentang privasi, teknologi, dan desentralisasi oleh yujiwh.">
+  <meta name="color-scheme" content="dark">
 
-  <!-- Favicon -->
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230b1120'/%3E%3Cpath d='M20 18l12 14 12-14' stroke='%23e2e8f0' stroke-width='6' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M32 32v14' stroke='%23e2e8f0' stroke-width='6' stroke-linecap='round'/%3E%3C/svg%3E" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23090d16'/%3E%3Cpath d='M18 18l14 14 14-14' stroke='%23d97706' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M32 32v14' stroke='%23d97706' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E">
 
-  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --bg: #0b1120;
-      --bg-alt: #111827;
-      --fg: #e2e8f0;
-      --muted: #64748b;
-      --accent: #6366f1;
-      --accent-glow: rgba(99, 102, 241, 0.15);
-      --card: #1a2332;
-      --border: rgba(148, 163, 184, 0.08);
-      --radius: 14px;
+      --bg: #090d16; --bg-alt: #0f172a; --fg: #e2e8f0; --muted: #94a3b8;
+      --accent: #d97706; --accent-soft: rgba(217,119,6,0.10);
+      --accent-border: rgba(217,119,6,0.20);
+      --card: #101828; --card-border: rgba(148,163,184,0.06);
+      --radius: 12px; --radius-sm: 8px;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { min-height: 100%; font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--fg); line-height: 1.65; -webkit-font-smoothing: antialiased; }
-    a { color: var(--accent); text-decoration: none; transition: opacity 0.2s; }
-    a:hover { opacity: 0.8; }
-    ::selection { background: var(--accent); color: #fff; }
-    .container { max-width: 820px; margin: 0 auto; padding: 0 1.5rem; }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{min-height:100vh;font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--fg);line-height:1.65;-webkit-font-smoothing:antialiased}
+    a{color:var(--accent);text-decoration:none}a:hover{opacity:.85}
+    ::selection{background:var(--accent);color:#fff}
+    .container{max-width:780px;margin:0 auto;padding:0 1.5rem}
 
-    /* ===== Header ===== */
-    header { display: flex; justify-content: space-between; align-items: center; padding: 2rem 0 1.5rem; border-bottom: 1px solid var(--border); }
-    .brand { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1.3rem; letter-spacing: 0.3px; color: var(--fg); }
-    nav { display: flex; gap: 1.75rem; }
-    nav a { position: relative; color: var(--muted); font-size: 0.95rem; font-weight: 500; padding-bottom: 2px; transition: color 0.2s; }
-    nav a::after { content: ''; position: absolute; left: 0; bottom: 0; width: 0; height: 2px; background: var(--accent); transition: width 0.25s ease; }
-    nav a:hover { color: var(--fg); }
-    nav a:hover::after, nav a.active::after { width: 100%; }
+    .reveal{opacity:0;transform:translateY(28px);transition:opacity .55s cubic-bezier(.22,1,.36,1),transform .55s cubic-bezier(.22,1,.36,1)}
+    .reveal.visible{opacity:1;transform:translateY(0)}
 
-    /* ===== Blog ===== */
-    .blog-header { padding: 4rem 0 2rem; text-align: center; }
-    .blog-header h1 { font-family: 'Playfair Display', serif; font-weight: 700; font-size: clamp(2rem, 5vw, 3rem); margin-bottom: 0.5rem; }
-    .blog-header p { color: var(--muted); font-size: 1.05rem; }
+    header{display:flex;justify-content:space-between;align-items:center;padding:1.75rem 0 1.25rem;border-bottom:1px solid var(--card-border)}
+    .brand{font-family:'Playfair Display',serif;font-weight:700;font-size:1.2rem;letter-spacing:.3px;color:var(--fg)}
+    .brand span{color:var(--accent)}
+    nav{display:flex;gap:1.5rem;align-items:center}
+    nav a{position:relative;color:var(--muted);font-size:.9rem;font-weight:500;padding-bottom:2px;transition:color .2s}
+    nav a::after{content:'';position:absolute;left:0;bottom:0;width:0;height:2px;background:var(--accent);transition:width .25s ease}
+    nav a:hover{color:var(--fg)}nav a:hover::after,nav a.active::after{width:100%}
 
-    .blog-empty { padding: 4rem 0; text-align: center; }
-    .blog-empty .icon { font-size: 3rem; margin-bottom: 1rem; opacity: 0.3; }
-    .blog-empty h2 { font-family: 'Playfair Display', serif; font-weight: 600; font-size: 1.3rem; margin-bottom: 0.5rem; }
-    .blog-empty p { color: var(--muted); font-size: 0.95rem; max-width: 400px; margin: 0 auto; }
+    .page-header{padding:4rem 0 2rem;text-align:center}
+    .page-header h1{font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(2rem,5vw,3rem)}
+    .page-header p{color:var(--muted);margin-top:.5rem;font-size:1rem}
 
-    .blog-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; margin-bottom: 1rem; transition: border-color 0.2s, transform 0.2s; }
-    .blog-card:hover { border-color: rgba(99, 102, 241, 0.3); transform: translateY(-2px); }
-    .blog-card .date { font-family: 'Inter', sans-serif; font-size: 0.8rem; color: var(--muted); margin-bottom: 0.5rem; }
-    .blog-card h2 { font-family: 'Playfair Display', serif; font-weight: 600; font-size: 1.2rem; margin-bottom: 0.4rem; }
-    .blog-card .excerpt { color: var(--muted); font-size: 0.9rem; line-height: 1.6; }
-    .blog-card .read-more { display: inline-block; margin-top: 0.75rem; font-family: 'Inter', sans-serif; font-size: 0.85rem; font-weight: 500; }
+    .empty-state{padding:4rem 1rem;text-align:center}
+    .empty-state .glyph{font-size:2.5rem;margin-bottom:1rem;opacity:.3;font-family:'Playfair Display',serif}
+    .empty-state h2{font-family:'Playfair Display',serif;font-weight:600;font-size:1.2rem;margin-bottom:.5rem}
+    .empty-state p{color:var(--muted);font-size:.9rem;max-width:380px;margin:0 auto;line-height:1.6}
 
-    /* ===== Footer ===== */
-    footer { text-align: center; padding: 2.5rem 0; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.85rem; margin-top: 2rem; }
-    footer a { color: var(--muted); }
-    footer a:hover { color: var(--accent); }
+    .post-card{background:var(--card);border:1px solid var(--card-border);border-radius:var(--radius);padding:1.5rem;margin-bottom:1rem;transition:border-color .2s,transform .2s}
+    .post-card:hover{border-color:var(--accent-border);transform:translateY(-2px)}
+    .post-card .date{font-size:.8rem;color:var(--muted);margin-bottom:.4rem}
+    .post-card h2{font-family:'Playfair Display',serif;font-weight:600;font-size:1.15rem;margin-bottom:.35rem}
+    .post-card .excerpt{color:var(--muted);font-size:.88rem;line-height:1.6}
+    .post-card .read{display:inline-flex;align-items:center;gap:4px;margin-top:.7rem;font-size:.85rem;font-weight:500}
 
-    @media (max-width: 640px) {
-      header { flex-direction: column; gap: 1rem; text-align: center; padding: 1.25rem 0; }
-      nav { gap: 1.25rem; }
+    footer{text-align:center;padding:2.5rem 0;border-top:1px solid var(--card-border);color:var(--muted);font-size:.8rem;margin-top:1.5rem}
+    footer a{color:var(--muted)}footer a:hover{color:var(--accent)}
+
+    @media(max-width:640px){
+      header{flex-direction:column;gap:.75rem;text-align:center;padding:1.25rem 0 1rem}
+      nav{gap:1.1rem}nav a{font-size:.85rem}
     }
   </style>
 </head>
 <body>
   <div class="container">
     <header>
-      <a href="/" class="brand" style="color:inherit;">yujiwh</a>
+      <a href="/" class="brand">yuji<span>wh</span></a>
       <nav>
         <a href="/">Home</a>
-        <a href="/#about">About</a>
+        <a href="/projects/">Projects</a>
         <a href="/blog/" class="active">Blog</a>
-        <a href="/#contact">Contact</a>
+        <a href="/contact/">Contact</a>
       </nav>
     </header>
 
-    <div class="blog-header">
+    <div class="page-header reveal">
       <h1>Blog</h1>
       <p>Catatan tentang privasi, teknologi, dan desentralisasi.</p>
     </div>
 
-    <!-- Blog posts would go here. Uncomment and use as template:
-    <div class="blog-card">
+    <!-- Template post — uncomment to publish -->
+    <!--
+    <div class="post-card reveal">
       <div class="date">13 Juni 2026</div>
-      <h2>Judul Post</h2>
-      <p class="excerpt">Ringkasan singkat dari tulisan ini...</p>
-      <a class="read-more" href="post-slug/">Baca →</a>
+      <h2>Judul Tulisan</h2>
+      <p class="excerpt">Ringkasan singkat dari tulisan ini. Bisa beberapa kalimat untuk menarik pembaca...</p>
+      <a class="read" href="/blog/judul-tulisan/">Baca selengkapnya →</a>
     </div>
     -->
 
-    <div class="blog-empty">
-      <div class="icon">✦</div>
+    <div class="empty-state reveal">
+      <div class="glyph">✦</div>
       <h2>Belum ada tulisan</h2>
-      <p>Tulisan baru akan ditambahkan di sini. Stay tuned.</p>
+      <p>Tulisan baru akan ditambahkan di sini. Pantau terus untuk catatan seputar privasi, enkripsi, dan teknologi desentralisasi.</p>
     </div>
 
     <footer>
-      <p>© <span id="year"></span> yujiwh — Dibangun dengan privasi sebagai prioritas</p>
-      <p style="margin-top:0.5rem;">
+      <p>© <span id="year"></span> yujiwh</p>
+      <p style="margin-top:.4rem;">
         <a href="https://x.com/yujiwh" target="_blank">X</a> •
         <a href="https://github.com/yujiwh" target="_blank">GitHub</a> •
         <a href="mailto:yujiwh@protonmail.com">Email</a>
       </p>
     </footer>
   </div>
-  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    const observer = new IntersectionObserver(e => {
+      e.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
 </body>
 </html>
