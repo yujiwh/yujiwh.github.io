@@ -104,6 +104,9 @@
     [data-theme="light"]{--bg:#f8fafc;--fg:#1e293b;--muted:#64748b;--accent:#6366f1;--accent-glow:rgba(99,102,241,0.08);--accent-border:rgba(99,102,241,0.15);--card:#ffffff;--border:rgba(0,0,0,0.06)}
 
     @view-transition{navigation:auto}
+    .lang-btn{display:flex;align-items:center;justify-content:center;background:none;border:none;color:var(--muted);cursor:pointer;padding:4px 6px;border-radius:6px;font-size:.75rem;font-weight:600;font-family:'JetBrains Mono',monospace;transition:color .2s,background .2s;letter-spacing:.5px;flex-shrink:0}
+    .lang-btn:hover{color:var(--fg);background:var(--accent-glow)}
+    .lang-btn.active{color:var(--accent)}
   </style>
 <script type="application/ld+json">
 {
@@ -127,23 +130,24 @@
     <header>
       <a href="/" class="brand">yuji<span>wh</span></a>
       <nav>
-        <a href="/" aria-current="page">Home</a>
-        <a href="/projects/">Projects</a>
-        <a href="/blog/">Blog</a>
-        <a href="/contact/">Contact</a>
+        <a href="/" aria-current="page" data-i18n="nav-home">Home</a>
+        <a href="/projects/" data-i18n="nav-projects">Projects</a>
+        <a href="/blog/" data-i18n="nav-blog">Blog</a>
+        <a href="/contact/" data-i18n="nav-contact">Contact</a>
         <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="Toggle theme">
           <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
           <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
         </button>
+        <button class="lang-btn" id="langBtn" onclick="toggleLang()" aria-label="Ganti bahasa">ID</button>
       </nav>
     </header>
 
     <!-- Hero -->
     <section class="hero">
       <div class="hero-glow"></div>
-      <div class="hero-badge reveal">✦ yujiwh</div>
-      <h1 class="reveal"><span class="gradient">Creator. Builder.<br>Privacy-minded.</span></h1>
-      <p class="reveal">Penggiat privasi, enkripsi, dan desentralisasi.<br>Teknologi untuk privasi. Kode untuk kebebasan.</p>
+      <div class="hero-badge reveal" data-i18n="hero-badge" data-i18n-html>✦ yujiwh</div>
+      <h1 class="reveal" data-i18n="hero-title" data-i18n-html><span class="gradient">Creator. Builder.<br>Privacy-minded.</span></h1>
+      <p class="reveal" data-i18n="hero-desc" data-i18n-html>Penggiat privasi, enkripsi, dan desentralisasi.<br>Teknologi untuk privasi. Kode untuk kebebasan.</p>
       <div class="hero-tags reveal">
         <span class="hero-tag">Privacy</span>
         <span class="hero-tag">Encryption</span>
@@ -159,24 +163,24 @@
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
         </div>
         <h3>Projects</h3>
-        <p>Lihat project apa yang sedang berjalan dan saya kerjakan.</p>
-        <span class="arrow">→ Lihat Proyek</span>
+        <p data-i18n="explore-projects-desc">Lihat project apa yang sedang berjalan dan saya kerjakan.</p>
+        <span class="arrow" data-i18n="explore-projects-action">→ Lihat Proyek</span>
       </a>
       <a class="explore-card reveal" href="/blog/">
         <div class="icon">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
         </div>
         <h3>Blog</h3>
-        <p>Catatan tentang privasi, teknologi, dan desentralisasi.</p>
-        <span class="arrow">→ Baca Blog</span>
+        <p data-i18n="explore-blog-desc">Catatan tentang privasi, teknologi, dan desentralisasi.</p>
+        <span class="arrow" data-i18n="explore-blog-action">→ Baca Blog</span>
       </a>
       <a class="explore-card reveal" href="/contact/">
         <div class="icon">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
         </div>
         <h3>Contact</h3>
-        <p>Terhubung dengan saya via media sosial, email, dll.</p>
-        <span class="arrow">→ Hubungi</span>
+        <p data-i18n="explore-contact-desc">Terhubung dengan saya via media sosial, email, dll.</p>
+        <span class="arrow" data-i18n="explore-contact-action">→ Hubungi</span>
       </a>
     </div>
 
@@ -187,6 +191,40 @@
   </div>
 
   <script>
+    (function(){
+      const translations = {
+        'hero-desc': { id: 'Penggiat privasi, enkripsi, dan desentralisasi.<br>Teknologi untuk privasi. Kode untuk kebebasan.', en: 'Privacy advocate, encryption enthusiast, decentralization builder.<br>Technology for privacy. Code for freedom.' },
+        'explore-projects-desc': { id: 'Lihat project apa yang sedang berjalan dan saya kerjakan.', en: 'See what projects I\'m currently working on.' },
+        'explore-projects-action': { id: '→ Lihat Proyek', en: '→ View Projects' },
+        'explore-blog-desc': { id: 'Catatan tentang privasi, teknologi, dan desentralisasi.', en: 'Notes on privacy, technology, and decentralization.' },
+        'explore-blog-action': { id: '→ Baca Blog', en: '→ Read Blog' },
+        'explore-contact-desc': { id: 'Terhubung dengan saya via media sosial, email, dll.', en: 'Connect with me via social media, email, etc.' },
+        'explore-contact-action': { id: '→ Hubungi', en: '→ Contact' },
+        'nav-home': { id: 'Home', en: 'Home' },
+        'nav-projects': { id: 'Projects', en: 'Projects' },
+        'nav-blog': { id: 'Blog', en: 'Blog' },
+        'nav-contact': { id: 'Contact', en: 'Contact' }
+      };
+      function applyLang(lang){
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+          const key = el.dataset.i18n;
+          if(translations[key] && translations[key][lang]){
+            if(el.dataset.i18nHtml) el.innerHTML = translations[key][lang];
+            else el.textContent = translations[key][lang];
+          }
+        });
+        document.getElementById('langBtn').textContent = lang === 'id' ? 'ID' : 'EN';
+      }
+      const stored = localStorage.getItem('lang') || 'id';
+      window.toggleLang = function(){
+        const cur = localStorage.getItem('lang') || 'id';
+        const next = cur === 'id' ? 'en' : 'id';
+        localStorage.setItem('lang', next);
+        applyLang(next);
+      };
+      window.__applyLang = applyLang;
+      applyLang(stored);
+    })();
     (function(){
       const pref = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme:light)').matches ? 'light' : 'dark');
       document.documentElement.setAttribute('data-theme', pref);
