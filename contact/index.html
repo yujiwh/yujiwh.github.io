@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Contact — yujiwh</title>
-  <meta name="description" content="Hubungi yujiwh — email, Telegram, media sosial, dan verifikasi identitas.">
+  <meta name="description" content="Hubungi yujiwh — email, Telegram, Signal, dan verifikasi akun resmi.">
   <meta name="color-scheme" content="dark">
 
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230f172a'/%3E%3Cpath d='M20 18l12 14 12-14' stroke='%23e2e8f0' stroke-width='6' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M32 32v14' stroke='%23e2e8f0' stroke-width='6' stroke-linecap='round'/%3E%3C/svg%3E">
@@ -14,7 +14,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
   <style>
-    :root{--bg:#0b1120;--fg:#e2e8f0;--muted:#64748b;--accent:#6366f1;--accent-glow:rgba(99,102,241,0.12);--accent-border:rgba(99,102,241,0.2);--card:#1a2332;--border:rgba(148,163,184,0.07);--radius:14px;--radius-sm:8px;--green:#22c55e;--amber:#f59e0b}
+    :root{--bg:#0b1120;--fg:#e2e8f0;--muted:#64748b;--accent:#6366f1;--accent-glow:rgba(99,102,241,0.12);--accent-border:rgba(99,102,241,0.2);--card:#1a2332;--border:rgba(148,163,184,0.07);--radius:14px;--radius-sm:8px;--green:#22c55e;--green-glow:rgba(34,197,94,0.1);--green-border:rgba(34,197,94,0.2);--red:#ef4444;--red-glow:rgba(239,68,68,0.1);--red-border:rgba(239,68,68,0.2)}
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     body{min-height:100vh;font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--fg);line-height:1.65;-webkit-font-smoothing:antialiased}
     a{color:var(--accent);text-decoration:none;transition:opacity .2s}a:hover{opacity:.85}
@@ -35,7 +35,6 @@
     .profile{padding:3rem 0 1.5rem;text-align:center}
     .profile-avatar{width:120px;height:120px;border-radius:50%;object-fit:cover;border:3px solid var(--accent-border);box-shadow:0 0 30px var(--accent-glow);margin-bottom:1rem}
     .profile h1{font-family:'Playfair Display',serif;font-weight:700;font-size:1.6rem}
-    .profile .tagline{color:var(--muted);font-size:.9rem;margin-top:.2rem}
 
     /* ===== Contact Cards ===== */
     .contact-cards{display:flex;flex-direction:column;gap:.75rem;padding-bottom:2rem}
@@ -47,7 +46,6 @@
     .contact-card .label{font-weight:600;font-size:.85rem;color:var(--muted)}
     .contact-card .value{font-size:.95rem;color:var(--fg)}
     .contact-card .action{font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--accent);white-space:nowrap}
-    .contact-card .badge{display:inline-flex;align-items:center;gap:4px;font-size:.7rem;font-weight:600;padding:.15rem .5rem;border-radius:999px;background:rgba(34,197,94,0.12);color:var(--green);border:1px solid rgba(34,197,94,0.2);margin-left:.5rem}
 
     /* ===== Section ===== */
     .section{padding-bottom:2rem}
@@ -55,30 +53,29 @@
     .section-head .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);flex-shrink:0}
     .section-head h2{font-size:1rem;font-weight:600}
 
-    /* ===== Social Grid ===== */
-    .social-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
-    .social-card{display:flex;align-items:center;gap:.75rem;border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.25rem;transition:border-color .2s,transform .2s;color:var(--fg)}
-    .social-card:hover{border-color:var(--accent-border);transform:translateY(-2px);opacity:1}
-    .social-card .icon{width:36px;height:36px;display:flex;align-items:center;justify-content:center;border-radius:var(--radius-sm);background:var(--accent-glow);color:var(--accent);flex-shrink:0}
-    .social-card .icon svg{width:18px;height:18px}
-    .social-card .detail{flex:1}
-    .social-card .label{font-weight:600;font-size:.9rem}
-    .social-card .handle{font-size:.8rem;color:var(--muted)}
-    .social-card .verify-badge{font-size:.68rem;font-weight:600;padding:.15rem .45rem;border-radius:999px;background:rgba(34,197,94,0.1);color:var(--green);border:1px solid rgba(34,197,94,0.15);display:inline-flex;align-items:center;gap:3px}
+    /* ===== Verify Search ===== */
+    .verify-search{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem 1.5rem}
+    .verify-search .desc{color:var(--muted);font-size:.85rem;margin-bottom:1rem;line-height:1.6}
+    .verify-input-wrap{display:flex;gap:.5rem;margin-bottom:.75rem}
+    .verify-input{flex:1;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);padding:.7rem 1rem;color:var(--fg);font-family:'JetBrains Mono',monospace;font-size:.85rem;outline:none;transition:border-color .2s}
+    .verify-input::placeholder{color:var(--muted)}
+    .verify-input:focus{border-color:var(--accent-border)}
+    .verify-btn{background:var(--accent);color:#fff;border:none;border-radius:var(--radius-sm);padding:.7rem 1.2rem;font-weight:600;font-size:.85rem;cursor:pointer;transition:opacity .2s,transform .2s}
+    .verify-btn:hover{opacity:.85;transform:translateY(-1px)}
+    .verify-btn:active{transform:translateY(0)}
 
-    /* ===== Verification Section ===== */
-    .verify-box{border:1px solid var(--accent-border);border-radius:var(--radius);padding:1.25rem 1.5rem;background:var(--card)}
-    .verify-box .title{font-weight:600;font-size:.9rem;margin-bottom:.5rem;display:flex;align-items:center;gap:.5rem}
-    .verify-box .title svg{width:16px;height:16px;color:var(--accent)}
-    .verify-box p{color:var(--muted);font-size:.85rem;line-height:1.6}
-    .verify-links{display:flex;gap:.75rem;flex-wrap:wrap;margin-top:.75rem}
-    .verify-link{display:inline-flex;align-items:center;gap:5px;font-size:.82rem;font-family:'JetBrains Mono',monospace;padding:.35rem .75rem;border-radius:var(--radius-sm);border:1px solid var(--border);color:var(--muted);transition:color .2s,border-color .2s}
-    .verify-link:hover{color:var(--fg);border-color:var(--accent-border)}
-    .verify-link svg{width:14px;height:14px}
+    .verify-result{display:none;border-radius:var(--radius-sm);padding:.85rem 1.1rem;font-size:.88rem;line-height:1.6;animation:fadeSlide .3s ease}
+    .verify-result.show{display:block}
+    .verify-result.verified{background:var(--green-glow);border:1px solid var(--green-border);color:var(--green)}
+    .verify-result.fake{background:var(--red-glow);border:1px solid var(--red-border);color:var(--red)}
+    .verify-result .result-icon{font-size:1.1rem;margin-right:.3rem}
+    .verify-result .result-detail{color:var(--muted);font-size:.8rem;margin-top:.3rem}
+
+    @keyframes fadeSlide{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
 
     /* ===== PGP ===== */
     .pgp-row{display:flex;align-items:center;gap:.75rem;padding:.85rem 1.1rem;border:1px solid var(--accent-border);border-radius:var(--radius-sm);background:var(--card);font-size:.82rem;font-family:'JetBrains Mono',monospace;word-break:break-all}
-    .pgp-row .key-icon{color:var(--amber);flex-shrink:0}
+    .pgp-row .key-icon{flex-shrink:0}
     .pgp-row a{color:var(--accent)}
 
     /* ===== Footer ===== */
@@ -89,8 +86,9 @@
     @media(max-width:640px){
       header{flex-direction:column;gap:.75rem;text-align:center;padding:1.25rem 0 1rem}
       nav{gap:1.1rem}nav a{font-size:.85rem}
-      .social-grid{grid-template-columns:1fr}
       .profile-avatar{width:100px;height:100px}
+      .verify-input-wrap{flex-direction:column}
+      .verify-btn{width:100%}
     }
   </style>
 </head>
@@ -110,7 +108,6 @@
     <div class="profile reveal">
       <img src="/fprofil.jpg" alt="yujiwh" class="profile-avatar" loading="lazy">
       <h1>yujiwh</h1>
-      <p class="tagline">Creator &bull; Builder &bull; Privacy-minded</p>
     </div>
 
     <!-- Direct Contact -->
@@ -134,73 +131,34 @@
           <div class="label">Telegram</div>
           <div class="value">@chimic</div>
         </div>
-        <span class="badge">● Aktif</span>
+        <span class="action">Chat →</span>
+      </a>
+
+      <a class="contact-card reveal" href="signal.me/#u/yujiwh" target="_blank">
+        <div class="icon">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.74.45 3.37 1.23 4.79L2.5 22l5.39-1.41A9.96 9.96 0 0 0 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm0 18c-1.73 0-3.35-.47-4.74-1.28l-.34-.21-3.19.84.84-3.19-.21-.34A7.953 7.953 0 0 1 4 12c0-4.41 3.59-8 8-8s8 3.59 8 8-3.59 8-8 8zm4.39-5.89c-.24-.12-1.44-.71-1.66-.79-.22-.08-.38-.12-.55.12s-.64.79-.79.95c-.15.16-.29.18-.53.06-.24-.12-1.02-.38-1.94-1.19-.72-.63-1.2-1.42-1.34-1.66-.14-.24-.01-.37.1-.49.1-.1.24-.26.36-.39.12-.13.16-.22.24-.37.08-.15.04-.29-.02-.41-.06-.12-.55-1.33-.75-1.82-.2-.48-.4-.42-.55-.42h-.47c-.16 0-.41.06-.63.29-.22.24-.83.81-.83 1.97s.85 2.28.97 2.43c.12.16 1.67 2.55 4.05 3.57.57.25 1.01.39 1.36.5.57.18 1.09.16 1.5.1.45-.07 1.39-.56 1.58-1.11.2-.55.2-1.02.14-1.11-.06-.1-.22-.16-.46-.28z"/></svg>
+        </div>
+        <div class="info">
+          <div class="label">Signal</div>
+          <div class="value">yujiwh</div>
+        </div>
+        <span class="action">Chat →</span>
       </a>
     </div>
 
-    <!-- Social Media -->
+    <!-- Verification Search -->
     <div class="section">
       <div class="section-head reveal">
         <span class="dot"></span>
-        <h2>Media Sosial</h2>
+        <h2>Verifikasi Akun</h2>
       </div>
-      <div class="social-grid">
-        <a class="social-card reveal" href="https://x.com/yujiwh" target="_blank">
-          <div class="icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2H21.756L14.35 10.56L23 22H16.385L10.924 14.772L4.637 22H1.122L9.06 12.84L1 2H7.802L12.685 8.59L18.244 2ZM17.09 19.984H18.91L7.044 3.888H5.078L17.09 19.984Z"/></svg></div>
-          <div class="detail">
-            <div class="label">X (Twitter)</div>
-            <div class="handle">@yujiwh</div>
-          </div>
-          <span class="verify-badge">✓ Resmi</span>
-        </a>
-        <a class="social-card reveal" href="https://instagram.com/yujiwh" target="_blank">
-          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.5" y2="6.5"/></svg></div>
-          <div class="detail">
-            <div class="label">Instagram</div>
-            <div class="handle">@yujiwh</div>
-          </div>
-          <span class="verify-badge">✓ Resmi</span>
-        </a>
-        <a class="social-card reveal" href="https://github.com/yujiwh" target="_blank">
-          <div class="icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.335-1.755-1.335-1.755-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12 24 5.37 18.63 0 12 0z"/></svg></div>
-          <div class="detail">
-            <div class="label">GitHub</div>
-            <div class="handle">yujiwh</div>
-          </div>
-          <span class="verify-badge">✓ Resmi</span>
-        </a>
-      </div>
-    </div>
-
-    <!-- Verification -->
-    <div class="section">
-      <div class="section-head reveal">
-        <span class="dot"></span>
-        <h2>Verifikasi Identitas</h2>
-      </div>
-      <div class="verify-box reveal">
-        <div class="title">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
-          Link resmi terverifikasi
+      <div class="verify-search reveal">
+        <p class="desc">Cek apakah link atau username sosial media adalah akun resmi <strong>yujiwh</strong>. Masukkan URL atau @username di bawah ini.</p>
+        <div class="verify-input-wrap">
+          <input type="text" class="verify-input" id="verifyInput" placeholder="Contoh: @yujiwh, x.com/yujiwh, github.com/yujiwh" autocomplete="off" spellcheck="false">
+          <button class="verify-btn" id="verifyBtn" onclick="verifyAccount()">Cek</button>
         </div>
-        <p>
-          Semua link di halaman ini adalah akun resmi milik <strong>yujiwh</strong>.
-          Untuk verifikasi silang, kamu bisa cek PGP key atau link di bawah ini:
-        </p>
-        <div class="verify-links">
-          <a class="verify-link" href="/.well-known/pgp.txt" target="_blank">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
-            PGP Key
-          </a>
-          <a class="verify-link" href="/.well-known/keybase.txt" target="_blank">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg>
-            Keybase
-          </a>
-          <a class="verify-link" href="https://github.com/yujiwh" target="_blank">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.335-1.755-1.335-1.755-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12 24 5.37 18.63 0 12 0z"/></svg>
-            GitHub
-          </a>
-        </div>
+        <div class="verify-result" id="verifyResult"></div>
       </div>
     </div>
 
@@ -222,6 +180,121 @@
   </div>
 
   <script>
+    // === Verified accounts database ===
+    const verifiedAccounts = {
+      'email': {
+        platform: 'Email',
+        icon: '✉️',
+        accounts: ['yujiwh@protonmail.com', 'yujiwh@pm.me']
+      },
+      'telegram': {
+        platform: 'Telegram',
+        icon: '💬',
+        accounts: ['@chimic', 'chimic', 't.me/chimic', 't.me/+chimic', 't.me/@chimic']
+      },
+      'signal': {
+        platform: 'Signal',
+        icon: '🔐',
+        accounts: ['yujiwh', 'signal.me/#u/yujiwh', 'signal.me/u/yujiwh']
+      },
+      'twitter': {
+        platform: 'X (Twitter)',
+        icon: '𝕏',
+        accounts: ['@yujiwh', 'yujiwh', 'x.com/yujiwh', 'twitter.com/yujiwh', 'https://x.com/yujiwh', 'https://twitter.com/yujiwh']
+      },
+      'instagram': {
+        platform: 'Instagram',
+        icon: '📸',
+        accounts: ['@yujiwh', 'instagram.com/yujiwh', 'https://instagram.com/yujiwh', 'www.instagram.com/yujiwh']
+      },
+      'github': {
+        platform: 'GitHub',
+        icon: '💻',
+        accounts: ['yujiwh', 'github.com/yujiwh', 'https://github.com/yujiwh', 'www.github.com/yujiwh']
+      }
+    };
+
+    function normalize(input) {
+      return input
+        .trim()
+        .toLowerCase()
+        .replace(/^https?:\/\//, '')
+        .replace(/^www\./, '')
+        .replace(/^mailto:/, '')
+        .replace(/\/+$/, '');
+    }
+
+    function verifyAccount() {
+      const raw = document.getElementById('verifyInput').value.trim();
+      const resultEl = document.getElementById('verifyResult');
+
+      if (!raw) {
+        resultEl.className = 'verify-result';
+        resultEl.innerHTML = '';
+        return;
+      }
+
+      const normalized = normalize(raw);
+      let match = null;
+
+      // Check all platforms
+      for (const [key, data] of Object.entries(verifiedAccounts)) {
+        for (const acc of data.accounts) {
+          const normalizedAcc = normalize(acc);
+          if (normalized === normalizedAcc || normalized.endsWith(normalizedAcc)) {
+            match = { ...data, key };
+            break;
+          }
+        }
+        if (match) break;
+      }
+
+      // Also check partial username match (e.g., input "yujiwh" matches multiple platforms)
+      if (!match) {
+        // Try matching just the username part from URLs
+        let username = normalized;
+        const platformPaths = { 'x.com/': 'twitter', 'twitter.com/': 'twitter', 'instagram.com/': 'instagram', 'github.com/': 'github', 't.me/': 'telegram', 'signal.me/': 'signal' };
+        for (const [path, platform] of Object.entries(platformPaths)) {
+          if (normalized.includes(path)) {
+            username = normalized.split(path).pop().replace(/[/?#].*$/, '');
+            if (verifiedAccounts[platform] && verifiedAccounts[platform].accounts.includes(username)) {
+              match = { ...verifiedAccounts[platform], key: platform };
+              break;
+            }
+          }
+        }
+      }
+
+      if (match) {
+        resultEl.className = 'verify-result verified show';
+        resultEl.innerHTML = `
+          <span class="result-icon">✅</span>
+          <strong>Akun Resmi Terverifikasi</strong>
+          <div class="result-detail">${match.icon} ${match.platform} — link ini benar milik yujiwh</div>
+        `;
+      } else {
+        // Detect which platform the input resembles
+        let guessedPlatform = 'platform ini';
+        const domainMap = { 'x.com': 'X (Twitter)', 'twitter.com': 'X (Twitter)', 'instagram.com': 'Instagram', 'github.com': 'GitHub', 't.me': 'Telegram', 'signal.me': 'Signal' };
+        for (const [dom, name] of Object.entries(domainMap)) {
+          if (normalized.includes(dom)) { guessedPlatform = name; break; }
+        }
+
+        resultEl.className = 'verify-result fake show';
+        resultEl.innerHTML = `
+          <span class="result-icon">⚠️</span>
+          <strong>Tidak Ditemukan — Kemungkinan Palsu</strong>
+          <div class="result-detail">Link atau username ini bukan akun resmi yujiwh di ${guessedPlatform}. Berhati-hatilah!</div>
+        `;
+      }
+    }
+
+    // Enter key to verify
+    document.getElementById('verifyInput').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') verifyAccount();
+    });
+
+    // === Scroll reveal ===
     const observer = new IntersectionObserver(e => {
       e.forEach(entry => { if(entry.isIntersecting) entry.target.classList.add('visible'); });
     }, { threshold: .08, rootMargin: '0px 0px -40px 0px' });
