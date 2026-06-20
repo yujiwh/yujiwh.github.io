@@ -1,0 +1,6 @@
+Contact: mailto:mail@yujiwh.xyz
+Contact: https://t.me/yujiwh
+Encryption: https://yujiwh.xyz/pgp.txt
+Preferred-Languages: en, id
+Canonical: https://yujiwh.xyz/.well-known/security.txt
+Policy: https://yujiwh.xyz/security-policy.html
