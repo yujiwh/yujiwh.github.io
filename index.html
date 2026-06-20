@@ -33,12 +33,12 @@
       --radius-sm: 8px;
     }
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    html{scroll-behavior:smooth}
+    html{scroll-behavior:smooth;overflow-x:hidden}
     body{min-height:100vh;font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--fg);line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
     a{color:var(--accent);text-decoration:none;transition:opacity .2s}
     a:hover{opacity:.85}
     ::selection{background:var(--accent);color:#fff}
-    .container{max-width:90vw;margin:0 auto;padding:0 1.5rem}
+    .container{max-width:780px;margin:0 auto;padding:0 1.5rem}
 
     .reveal{opacity:0;transform:translateY(24px);transition:opacity .5s ease,transform .5s ease}
     .reveal.visible{opacity:1;transform:translateY(0)}
@@ -54,7 +54,7 @@
     nav a:hover::after,nav a.active::after{width:100%}
 
     /* ===== Hero ===== */
-    .hero{padding:5rem 0 2.5rem;text-align:center;position:relative}
+    .hero{padding:5rem 0 2.5rem;text-align:center;position:relative;overflow:hidden}
     .hero-glow{position:absolute;top:-30%;left:50%;transform:translateX(-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(99,102,241,0.05) 0%,transparent 65%);pointer-events:none}
     .hero-badge{display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--accent);background:var(--accent-glow);border:1px solid var(--accent-border);padding:.3rem .85rem;border-radius:999px;margin-bottom:1.25rem;letter-spacing:.3px}
     .hero h1{font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(2.8rem,7vw,4rem);line-height:1.08;margin-bottom:.75rem}
