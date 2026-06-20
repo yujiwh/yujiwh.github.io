@@ -19,6 +19,9 @@
     body{min-height:100vh;font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--fg);line-height:1.65;-webkit-font-smoothing:antialiased}
     a{color:var(--accent);text-decoration:none;transition:opacity .2s}a:hover{opacity:.85}
     ::selection{background:var(--accent);color:#fff}
+    .skip-link{position:absolute;top:-100%;left:0;z-index:9999;padding:.5rem 1rem;background:var(--accent);color:#fff;font-size:.85rem;font-weight:600;transition:top .2s}
+    .skip-link:focus{top:0}
+    :focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
     .container{max-width:780px;margin:0 auto;padding:0 1.5rem}
     .reveal{opacity:0;transform:translateY(24px);transition:opacity .5s ease,transform .5s ease}
     .reveal.visible{opacity:1;transform:translateY(0)}
@@ -55,14 +58,30 @@
       nav{gap:1.1rem}nav a{font-size:.85rem}
     }
   </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "yujiwh",
+  "url": "https://yujiwh.xyz",
+  "sameAs": [
+    "https://x.com/yujiwh",
+    "https://instagram.com/yujiwh",
+    "https://facebook.com/yujiwh",
+    "https://bsky.app/profile/yujiwh.xyz"
+  ]
+}
+</script>
 </head>
 <body>
+  <a href="#main" class="skip-link">Skip to content</a>
   <div class="container">
+    <main id="main">
     <header>
       <a href="/" class="brand">yuji<span>wh</span></a>
       <nav>
         <a href="/">Home</a>
-        <a href="/projects/" class="active">Projects</a>
+        <a href="/projects/" aria-current="page">Projects</a>
         <a href="/blog/">Blog</a>
         <a href="/contact/">Contact</a>
       </nav>
@@ -92,7 +111,7 @@
     <div class="proj reveal">
       <div class="proj-head">
         <div class="proj-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
-        <span class="proj-name"><a href="http://ca.yujiwh.xyz:20128" target="_blank" style="color:inherit;text-decoration:none">9Router</a> <span class="proj-status">● Aktif</span></span>
+        <span class="proj-name"><a href="https://ca.yujiwh.xyz:20128" target="_blank" style="color:inherit;text-decoration:none">9Router</a> <span class="proj-status">● Aktif</span></span>
       </div>
       <p class="proj-desc">Multi-model AI API gateway pribadi untuk AI asisten, reasoning, coding/debug, heavy task, image, embedding.</p>
       <div class="proj-tags">
@@ -103,8 +122,9 @@
       </div>
     </div>
     <footer>
-      <p>© 2026 yujiwh</p>
+      <p>© <span id="year"></span> yujiwh</p>
     </footer>
+    </main>
   </div>
 
   <script>
@@ -112,6 +132,7 @@
       e.forEach(entry => { if(entry.isIntersecting) entry.target.classList.add('visible'); });
     }, { threshold: .08, rootMargin: '0px 0px -40px 0px' });
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    document.getElementById('year').textContent = new Date().getFullYear();
   </script>
 </body>
 </html>

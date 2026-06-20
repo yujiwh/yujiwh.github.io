@@ -28,7 +28,7 @@
     nav{display:flex;gap:1.5rem;align-items:center}
     nav a{position:relative;color:var(--muted);font-size:.9rem;font-weight:500;padding-bottom:2px;transition:color .2s}
     nav a::after{content:'';position:absolute;left:0;bottom:0;width:0;height:2px;background:var(--accent);transition:width .25s ease}
-    nav a:hover{color:var(--fg)}nav a:hover::after,nav a.active::after{width:100%}
+    nav a:hover{color:var(--fg)}nav a:hover::after,nav a.active::after,nav a[aria-current="page"]::after{width:100%}
 
     .page-head{padding:3.5rem 0 1.5rem;text-align:center}
     .page-head h1{font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(1.8rem,4vw,2.5rem)}
@@ -53,16 +53,35 @@
       header{flex-direction:column;gap:.75rem;text-align:center;padding:1.25rem 0 1rem}
       nav{gap:1.1rem}nav a{font-size:.85rem}
     }
+    .skip-link{position:absolute;top:-100%;left:0;z-index:9999;padding:.5rem 1rem;background:var(--accent);color:#fff;font-size:.85rem;font-weight:600;transition:top .2s}
+    .skip-link:focus{top:0}
+    :focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
   </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "yujiwh",
+  "url": "https://yujiwh.xyz",
+  "sameAs": [
+    "https://x.com/yujiwh",
+    "https://instagram.com/yujiwh",
+    "https://facebook.com/yujiwh",
+    "https://bsky.app/profile/yujiwh.xyz"
+  ]
+}
+</script>
 </head>
 <body>
+  <a href="#main" class="skip-link">Skip to content</a>
   <div class="container">
+    <main id="main">
     <header>
       <a href="/" class="brand">yuji<span>wh</span></a>
       <nav>
         <a href="/">Home</a>
         <a href="/projects/">Projects</a>
-        <a href="/blog/" class="active">Blog</a>
+        <a href="/blog/" aria-current="page">Blog</a>
         <a href="/contact/">Contact</a>
       </nav>
     </header>
@@ -89,8 +108,9 @@
     </div>
 
     <footer>
-      <p>© 2026 yujiwh</p>
+      <p>© <span id="year"></span> yujiwh</p>
     </footer>
+    </main>
   </div>
 
   <script>
@@ -98,6 +118,7 @@
       e.forEach(entry => { if(entry.isIntersecting) entry.target.classList.add('visible'); });
     }, { threshold: .08, rootMargin: '0px 0px -40px 0px' });
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    document.getElementById('year').textContent = new Date().getFullYear();
   </script>
 </body>
 </html>

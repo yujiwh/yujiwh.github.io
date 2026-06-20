@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://yujiwh.github.io/sitemap.xml
