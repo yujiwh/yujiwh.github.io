@@ -31,7 +31,7 @@
     nav{display:flex;gap:1.5rem;align-items:center}
     nav a{position:relative;color:var(--muted);font-size:.9rem;font-weight:500;padding-bottom:2px;transition:color .2s}
     nav a::after{content:'';position:absolute;left:0;bottom:0;width:0;height:2px;background:var(--accent);transition:width .25s ease}
-    nav a:hover{color:var(--fg)}nav a:hover::after,nav a.active::after{width:100%}
+    nav a:hover{color:var(--fg)}nav a:hover::after,nav a.active::after,nav a[aria-current="page"]::after{width:100%}
 
     .page-head{padding:3.5rem 0 1.5rem}
     .page-head h1{font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(1.8rem,4vw,2.5rem)}
