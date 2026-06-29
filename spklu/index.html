@@ -215,6 +215,76 @@
     .action-btn.whatsapp { border-color: #25d366; color: #25d366; }
     .action-btn.telegram { border-color: #0088cc; color: #0088cc; }
 
+    
+    /* Filter bar */
+    .filter-bar {
+      display: flex; gap: 6px; padding: 8px 16px 6px;
+      overflow-x: auto; -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .filter-bar::-webkit-scrollbar { display: none; }
+    .filter-pill {
+      display: flex; align-items: center; gap: 5px;
+      padding: 6px 12px; border-radius: 20px;
+      font-size: 11px; font-weight: 600;
+      background: #1a1a1a; border: 1px solid #333;
+      color: #888; white-space: nowrap;
+      cursor: pointer; transition: all 0.15s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .filter-pill:active { transform: scale(0.95); }
+    .filter-pill.active { color: #fff; }
+    .filter-pill[data-filter="spklu"].active { border-color: #22c55e; background: #22c55e18; }
+    .filter-pill[data-filter="pln"].active { border-color: #f59e0b; background: #f59e0b18; }
+    .filter-pill[data-filter="mandatory"].active { border-color: #ef4444; background: #ef444418; }
+    .filter-pill[data-filter="ferry"].active { border-color: #06b6d4; background: #06b6d418; }
+    .filter-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+    /* Status badge */
+    .status-badge {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-size: 10px; font-weight: 700; padding: 2px 7px;
+      border-radius: 6px; margin-left: 6px;
+    }
+    .status-open { background: #22c55e22; color: #22c55e; }
+    .status-close { background: #ef444422; color: #ef4444; }
+    .status-unknown { background: #88888822; color: #888; }
+
+    /* Minimap */
+    .minimap {
+      position: fixed; bottom: 80px; right: 12px; z-index: 1000;
+      width: 120px; height: 80px;
+      border: 2px solid #333; border-radius: 10px;
+      overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.6);
+      cursor: pointer; transition: all 0.2s;
+      opacity: 0.8;
+    }
+    .minimap:hover { opacity: 1; transform: scale(1.05); }
+    .minimap:active { transform: scale(0.95); }
+    .minimap-crosshair {
+      position: absolute; top: 50%; left: 50%;
+      width: 10px; height: 10px;
+      border: 2px solid #fff; border-radius: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      box-shadow: 0 0 8px rgba(255,255,255,0.5);
+    }
+    @media (max-width: 768px) {
+      .minimap { bottom: 70px; right: 10px; width: 100px; height: 66px; }
+    }
+
+    /* Share marker popup */
+    .share-row {
+      display: flex; gap: 6px; margin-top: 8px;
+    }
+    .share-mini-btn {
+      flex: 1; display: flex; align-items: center; justify-content: center;
+      gap: 4px; padding: 8px; border-radius: 8px;
+      font-size: 11px; font-weight: 600; text-decoration: none;
+      border: 1px solid #333; transition: all 0.15s;
+    }
+    .share-mini-btn:active { transform: scale(0.95); }
+
     /* ═══════════════════ MAP OVERRIDES ═══════════════════ */
     .leaflet-popup-content-wrapper {
       background: #1a1a1a !important; color: #e0e0e0 !important;
@@ -313,6 +383,12 @@
   <button class="toggle-desktop" id="toggleDesktop" onclick="toggleSidebar()" style="display:none">◀</button>
 
   <!-- Legend bar -->
+
+  <!-- Minimap -->
+  <div class="minimap" id="minimap">
+    <div class="minimap-crosshair"></div>
+  </div>
+
   <div class="legend-bar" id="legendBar">
     <div class="legend-pill"><span class="legend-dot" style="background:#22c55e"></span>SPKLU</div>
     <div class="legend-pill"><span class="legend-dot" style="background:#f59e0b"></span>Kantor PLN</div>
@@ -331,6 +407,15 @@
       </div>
     </div>
     <div class="sheet-body">
+
+
+    <!-- Filter Bar -->
+    <div class="filter-bar">
+      <div class="filter-pill active" data-filter="spklu" onclick="toggleFilter('spklu',this)"><span class="filter-dot" style="background:#22c55e"></span>SPKLU</div>
+      <div class="filter-pill active" data-filter="pln" onclick="toggleFilter('pln',this)"><span class="filter-dot" style="background:#f59e0b"></span>Kantor PLN</div>
+      <div class="filter-pill active" data-filter="mandatory" onclick="toggleFilter('mandatory',this)"><span class="filter-dot" style="background:#ef4444"></span>Wajib Full</div>
+      <div class="filter-pill active" data-filter="ferry" onclick="toggleFilter('ferry',this)"><span class="filter-dot" style="background:#06b6d4"></span>Ferry</div>
+    </div>
 
     <!-- Action Bar -->
     <div class="action-bar">
@@ -395,7 +480,7 @@
       { id:'watudodol', name:'Grand Watudodol', sub:'Banyuwangi, Jawa Timur', lat:-8.0973, lng:114.4121, type:'pln', route:[1], dist:'80 km', time:'1j 28m', desc:'Sebelum penyeberangan ke Bali' },
       { id:'ferry', name:'⛴️ Penyeberangan', sub:'Ketapang → Gilimanuk', lat:-8.1428, lng:114.4003, type:'ferry', route:[1,2], dist:'13 km', desc:'Ferry ~30 menit' },
       { id:'spklu-gilimanuk', name:'⚡ SPKLU Gilimanuk', sub:'Anjungan Betutu, Gilimanuk, Jembrana', lat:-8.167, lng:114.4404, type:'spklu', route:[1,2], dist:'—', desc:'SPKLU pertama di Bali. Titik antar rute.' },
-      { id:'pln-negara', name:'PLN ULP Negara', sub:'Jl. Gatot Subroto No.33, Negara', lat:-8.3601, lng:114.6208, type:'pln', route:[2], dist:'33 km', time:'43 menit', desc:'Unit Layanan Pelanggan Negara' },
+      { id:'pln-negara', name:'PLN ULP Negara', sub:'Jl. Gatot Subroto No.33, Negara', lat:-8.3601, lng:114.6208, type:'pln', route:[2], dist:'33 km', time:'43 menit', desc:'Unit Layanan Pelanggan Negara', hours:'08:00-16:00' },
       { id:'spklu-yeh-leh', name:'⚡ SPKLU Tiang Listrik Yeh Leh', sub:'Jl. Raya Denpasar-Gilimanuk, Pekutatan', lat:-8.45, lng:114.9, type:'spklu', route:[2], dist:'37 km', time:'54 menit', desc:'Backup: Rest Area (2.5 km)' },
       { id:'spklu-munggu', name:'⚡ SPKLU Jl. Raya Munggu', sub:'Jl. By Pass Tanah Lot No.12, Mengwi', lat:-8.59, lng:115.135, type:'spklu', route:[2], dist:'45 km', time:'1j 20m', desc:'SPKLU terakhir sebelum tujuan' }
     ];
@@ -443,9 +528,11 @@
           <div class="addr">${loc.sub}</div>
           ${loc.desc?`<div class="desc">${loc.desc}</div>`:''}
           ${loc.dist?`<div class="dist-info">📍 ${loc.dist}${loc.time?' · ⏱️ '+loc.time:''}</div>`:''}
-          <div style="display:flex;gap:6px;margin-top:10px">
-            <a class="nav-btn" href="${url}" target="_blank" rel="noopener" style="flex:1;text-align:center">🧭 Maps</a>
-            <a class="nav-btn" href="https://wa.me/?text=${encodeURIComponent(loc.name+'\n'+loc.sub+'\nhttps://www.google.com/maps/dir/?api=1&destination='+loc.lat+','+loc.lng)}" target="_blank" rel="noopener" style="flex:1;text-align:center;background:#25d366">💬 Share</a>
+          <div style="margin-top:6px">${getStatusBadge(loc)}</div>
+          <div class="share-row">
+            <a class="share-mini-btn" href="${url}" target="_blank" rel="noopener" style="background:#1e3a5f;border-color:#3b82f6;color:#3b82f6">🧭 Google Maps</a>
+            <a class="share-mini-btn" href="https://wa.me/?text=${encodeURIComponent(loc.name+'\n'+loc.sub+'\nhttps://www.google.com/maps/dir/?api=1&destination='+loc.lat+','+loc.lng)}" target="_blank" rel="noopener" style="background:#1a3320;border-color:#25d366;color:#25d366">💬 WA</a>
+            <a class="share-mini-btn" href="https://t.me/share/url?url=${encodeURIComponent('https://www.google.com/maps/dir/?api=1&destination='+loc.lat+','+loc.lng)}&text=${encodeURIComponent(loc.name)}" target="_blank" rel="noopener" style="background:#0d2137;border-color:#0088cc;color:#0088cc">✈️ TG</a>
           </div>
         </div>
       `, { maxWidth:280, closeButton:true });
@@ -647,6 +734,89 @@
           btn.textContent = '✅ Link tersalin!';
           setTimeout(() => btn.textContent = '🔗 Share Link', 2000);
         });
+      }
+    }
+
+
+    // ═══════════════════ FILTER MARKERS ═══════════════════
+    const markerLayers = {};
+    locations.forEach(loc => {
+      if (!markerLayers[loc.type]) markerLayers[loc.type] = [];
+      markerLayers[loc.type].push(markers[loc.id]);
+    });
+
+    function toggleFilter(type, el) {
+      el.classList.toggle('active');
+      const show = el.classList.contains('active');
+      if (markerLayers[type]) {
+        markerLayers[type].forEach(m => {
+          if (show) m.addTo(map);
+          else map.removeLayer(m);
+        });
+      }
+    }
+
+    // ═══════════════════ STATUS SPKLU ═══════════════════
+    function getStatusBadge(loc) {
+      if (!loc.hours) return '';
+      const now = new Date();
+      const wib = new Date(now.toLocaleString('en-US', {timeZone: 'Asia/Jakarta'}));
+      const h = wib.getHours();
+      const m = wib.getMinutes();
+      const nowMin = h * 60 + m;
+
+      if (loc.hours === '24 jam') {
+        return '<span class="status-badge status-open">🟢 Buka 24 jam</span>';
+      }
+
+      const parts = loc.hours.split('-');
+      if (parts.length === 2) {
+        const [oh, om] = parts[0].split(':').map(Number);
+        const [ch, cm] = parts[1].split(':').map(Number);
+        const open = oh * 60 + om;
+        const close = ch * 60 + cm;
+        if (nowMin >= open && nowMin < close) {
+          return '<span class="status-badge status-open">🟢 Buka</span>';
+        } else {
+          return '<span class="status-badge status-close">🔴 Tutup</span>';
+        }
+      }
+      return '<span class="status-badge status-unknown">⚪ Jam: ' + loc.hours + '</span>';
+    }
+
+    // ═══════════════════ MINIMAP ═══════════════════
+    const minimapEl = document.getElementById('minimap');
+    const mm = L.map(minimapEl, {
+      center: [-8.3, 114.4], zoom: 9,
+      zoomControl: false, attributionControl: false,
+      dragging: false, scrollWheelZoom: false, touchZoom: false,
+      doubleClickZoom: false, boxZoom: false, keyboard: false
+    });
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+      subdomains: 'abcd', maxZoom: 19
+    }).addTo(mm);
+    L.polyline(r1, { color: '#3b82f6', weight: 2, opacity: 0.8 }).addTo(mm);
+    L.polyline(r2, { color: '#8b5cf6', weight: 2, opacity: 0.8 }).addTo(mm);
+    const mmBounds = L.latLngBounds([...r1, ...r2]);
+    mm.fitBounds(mmBounds, { padding: [8, 8] });
+
+    // Viewport indicator on minimap
+    const viewportRect = L.rectangle(mmBounds, {
+      color: '#fff', weight: 1, fillOpacity: 0, dashArray: '4,4'
+    }).addTo(mm);
+
+    // Click minimap to zoom out main map
+    minimapEl.addEventListener('click', () => {
+      map.flyToBounds(mmBounds, { padding: [40, 40], duration: 0.8 });
+    });
+
+    // ═══════════════════ SHARE INDIVIDUAL ═══════════════════
+    function shareMarker(loc) {
+      const text = loc.name + '\n' + loc.sub + '\nhttps://www.google.com/maps/dir/?api=1&destination=' + loc.lat + ',' + loc.lng;
+      if (navigator.share) {
+        navigator.share({ title: loc.name, text: text });
+      } else {
+        navigator.clipboard.writeText(text).then(() => alert('Link tersalin!'));
       }
     }
 
