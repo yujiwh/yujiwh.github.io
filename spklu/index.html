@@ -6,6 +6,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="theme-color" content="#0a0a0a">
+  <link rel="manifest" href="manifest.json">
   <title>Peta SPKLU — Motor Listrik Jember–Bali</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <style>
@@ -183,6 +184,37 @@
       width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
     }
 
+    
+    /* GPS distance badge */
+    .gps-badge {
+      position: fixed; top: 50px; left: 50%; transform: translateX(-50%);
+      z-index: 1050; background: rgba(10,10,10,0.92); backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid #333; border-radius: 10px; padding: 8px 14px;
+      font-size: 12px; color: #fff; display: none; align-items: center; gap: 8px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+    }
+    .gps-badge.show { display: flex; }
+    .gps-badge .pulse { width: 8px; height: 8px; border-radius: 50%; background: #22c55e; animation: pulse 1.5s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+    /* Share & GPX buttons */
+    .action-bar {
+      display: flex; gap: 8px; padding: 8px 16px 4px;
+      border-bottom: 1px solid #222;
+    }
+    .action-btn {
+      flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px;
+      padding: 10px; background: #1a1a1a; border: 1px solid #333;
+      border-radius: 10px; color: #ccc; font-size: 12px; font-weight: 600;
+      cursor: pointer; transition: all 0.15s; -webkit-tap-highlight-color: transparent;
+    }
+    .action-btn:active { background: #252525; border-color: #555; transform: scale(0.97); }
+    .action-btn.primary { background: #1e3a5f; border-color: #3b82f6; color: #3b82f6; }
+    .action-btn.primary:active { background: #1a3355; }
+    .action-btn.whatsapp { border-color: #25d366; color: #25d366; }
+    .action-btn.telegram { border-color: #0088cc; color: #0088cc; }
+
     /* ═══════════════════ MAP OVERRIDES ═══════════════════ */
     .leaflet-popup-content-wrapper {
       background: #1a1a1a !important; color: #e0e0e0 !important;
@@ -267,6 +299,13 @@
     <span class="stats">339 km · 2 rute · 7 titik</span>
   </div>
 
+
+  <!-- GPS Distance Badge -->
+  <div class="gps-badge" id="gpsBadge">
+    <span class="pulse"></span>
+    <span id="gpsText">📍 Menghitung jarak...</span>
+  </div>
+
   <!-- Map -->
   <div id="map"></div>
 
@@ -292,6 +331,17 @@
       </div>
     </div>
     <div class="sheet-body">
+
+    <!-- Action Bar -->
+    <div class="action-bar">
+      <div class="action-btn primary" onclick="downloadGPX()">📥 GPX Export</div>
+      <div class="action-btn whatsapp" onclick="shareWA()">💬 WhatsApp</div>
+      <div class="action-btn telegram" onclick="shareTG()">✈️ Telegram</div>
+    </div>
+    <div class="action-bar">
+      <div class="action-btn" onclick="toggleGPS()">📍 Jarak dari sini</div>
+      <div class="action-btn" onclick="shareAll()">🔗 Share Link</div>
+    </div>
 
       <!-- Route 1 -->
       <div class="route-card active" onclick="flyToRoute(1)" data-route="1">
@@ -393,7 +443,10 @@
           <div class="addr">${loc.sub}</div>
           ${loc.desc?`<div class="desc">${loc.desc}</div>`:''}
           ${loc.dist?`<div class="dist-info">📍 ${loc.dist}${loc.time?' · ⏱️ '+loc.time:''}</div>`:''}
-          <a class="nav-btn" href="${url}" target="_blank" rel="noopener">🧭 Buka di Google Maps</a>
+          <div style="display:flex;gap:6px;margin-top:10px">
+            <a class="nav-btn" href="${url}" target="_blank" rel="noopener" style="flex:1;text-align:center">🧭 Maps</a>
+            <a class="nav-btn" href="https://wa.me/?text=${encodeURIComponent(loc.name+'\n'+loc.sub+'\nhttps://www.google.com/maps/dir/?api=1&destination='+loc.lat+','+loc.lng)}" target="_blank" rel="noopener" style="flex:1;text-align:center;background:#25d366">💬 Share</a>
+          </div>
         </div>
       `, { maxWidth:280, closeButton:true });
 
@@ -497,12 +550,117 @@
     const all = [...r1, ...r2];
     map.fitBounds(all, { padding: isMobile ? [20,20,200,20] : [60,400] });
 
+
+    // ═══════════════════ GPX EXPORT ═══════════════════
+    function downloadGPX() {
+      let gpx = '<?xml version="1.0" encoding="UTF-8"?>\n';
+      gpx += '<gpx version="1.1" creator="SPKLU Map" xmlns="http://www.topografix.com/GPX/1/1">\n';
+      gpx += '  <metadata><name>SPKLU Jember-Bali</name></metadata>\n';
+
+      // Waypoints
+      locations.forEach(loc => {
+        gpx += `  <wpt lat="${loc.lat}" lon="${loc.lng}"><name>${loc.name}</name><desc>${loc.sub}</desc></wpt>\n`;
+      });
+
+      // Route 1
+      gpx += '  <rte><name>Rute 1: Jember → Gilimanuk</name>\n';
+      r1.forEach(c => { gpx += `    <rtept lat="${c[0]}" lon="${c[1]}"></rtept>\n`; });
+      gpx += '  </rte>\n';
+
+      // Route 2
+      gpx += '  <rte><name>Rute 2: Gilimanuk → Munggu</name>\n';
+      r2.forEach(c => { gpx += `    <rtept lat="${c[0]}" lon="${c[1]}"></rtept>\n`; });
+      gpx += '  </rte>\n';
+
+      gpx += '</gpx>';
+
+      const blob = new Blob([gpx], { type: 'application/gpx+xml' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = 'spklu-jember-bali.gpx'; a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    // ═══════════════════ GPS DISTANCE ═══════════════════
+    let gpsWatchId = null;
+    let gpsActive = false;
+
+    function toggleGPS() {
+      if (gpsActive) {
+        navigator.geolocation.clearWatch(gpsWatchId);
+        gpsActive = false;
+        document.getElementById('gpsBadge').classList.remove('show');
+      } else {
+        if (!navigator.geolocation) return alert('GPS tidak didukung browser');
+        gpsActive = true;
+        document.getElementById('gpsBadge').classList.add('show');
+        gpsWatchId = navigator.geolocation.watchPosition(updateGPS, gpsError, { enableHighAccuracy: true, maximumAge: 5000 });
+      }
+    }
+
+    function haversine(lat1,lon1,lat2,lon2) {
+      const R = 6371;
+      const dLat = (lat2-lat1) * Math.PI/180;
+      const dLon = (lon2-lon1) * Math.PI/180;
+      const a = Math.sin(dLat/2)**2 + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)**2;
+      return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    }
+
+    function updateGPS(pos) {
+      const { latitude, longitude } = pos.coords;
+      // Find nearest SPKLU
+      let nearest = null, minDist = Infinity;
+      locations.forEach(loc => {
+        if (loc.type !== 'spklu' && loc.type !== 'mandatory') return;
+        const d = haversine(latitude, longitude, loc.lat, loc.lng);
+        if (d < minDist) { minDist = d; nearest = loc; }
+      });
+      if (nearest) {
+        const km = minDist.toFixed(1);
+        const eta = Math.round(minDist / 35 * 60); // avg 35 km/h motor
+        document.getElementById('gpsText').innerHTML =
+          `📍 <strong>${km} km</strong> ke ${nearest.name} · ⏱️ ~${eta} menit`;
+      }
+    }
+
+    function gpsError(err) {
+      document.getElementById('gpsText').textContent = '⚠️ ' + (err.code === 1 ? 'Izinkan akses GPS' : 'GPS error');
+      setTimeout(() => { if (gpsActive) { gpsActive = false; document.getElementById('gpsBadge').classList.remove('show'); } }, 3000);
+    }
+
+    // ═══════════════════ SHARE ═══════════════════
+    const shareText = '🗺️ Peta SPKLU Motor Listrik Jember–Bali\n339 km · 2 rute · 7 titik SPKLU\n';
+    const shareUrl = 'https://yujiwh.xyz/spklu/';
+
+    function shareWA() {
+      window.open(`https://wa.me/?text=${encodeURIComponent(shareText + shareUrl)}`, '_blank');
+    }
+    function shareTG() {
+      window.open(`https://t.me/share/url?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareText)}`, '_blank');
+    }
+    function shareAll() {
+      if (navigator.share) {
+        navigator.share({ title: 'Peta SPKLU Motor Listrik', text: shareText, url: shareUrl });
+      } else {
+        navigator.clipboard.writeText(shareUrl).then(() => {
+          const btn = document.querySelector('.action-btn:last-child');
+          btn.textContent = '✅ Link tersalin!';
+          setTimeout(() => btn.textContent = '🔗 Share Link', 2000);
+        });
+      }
+    }
+
     // ═══════════════════ RESIZE ═══════════════════
     let resizeTimer;
     window.addEventListener('resize', () => {
       clearTimeout(resizeTimer);
       resizeTimer = setTimeout(() => map.invalidateSize(), 200);
     });
+  
+    // ═══════════════════ SERVICE WORKER ═══════════════════
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js').catch(() => {});
+    }
   </script>
 </body>
 </html>
