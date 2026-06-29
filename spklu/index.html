@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="theme-color" content="#0a0a0a">
+  <meta name="theme-color" id="metaTheme" content="#0a0a0a">
   <link rel="manifest" href="data:application/json,%7B%22name%22%3A%22Peta%20SPKLU%20Motor%20Listrik%22%2C%22short_name%22%3A%22SPKLU%20Map%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%230a0a0a%22%2C%22theme_color%22%3A%22%230a0a0a%22%7D">
   <title>Peta SPKLU — Motor Listrik Jember–Bali</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -285,6 +285,132 @@
     }
     .share-mini-btn:active { transform: scale(0.95); }
 
+    
+    /* Theme toggle */
+    .theme-toggle {
+      position: fixed; top: 50px; right: 12px; z-index: 1100;
+      width: 40px; height: 40px;
+      background: rgba(10,10,10,0.9); border: 1px solid #333;
+      border-radius: 10px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; color: #fff;
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      transition: all 0.2s;
+    }
+    .theme-toggle:active { transform: scale(0.9); }
+
+    /* Light mode overrides */
+    body.light { background: #f5f5f5; color: #222; }
+    body.light .header { background: rgba(255,255,255,0.94); border-bottom-color: #ddd; }
+    body.light .header h1 { color: #111; }
+    body.light .header .stats { color: #888; }
+    body.light .bottom-sheet { background: #fff; border-top-color: #ddd; }
+    body.light .sheet-handle::after { background: #ccc; }
+    body.light .route-card { background: #f9f9f9; border-color: #e5e5e5; }
+    body.light .route-card:active { background: #f0f4ff; }
+    body.light .route-card.active { border-color: #3b82f6; background: #eff6ff; }
+    body.light .route-card .route-name { color: #111; }
+    body.light .route-card .route-meta { color: #999; }
+    body.light .stop-name { color: #333; }
+    body.light .stop-line { background: #ddd; }
+    body.light .stop-meta { color: #aaa; }
+    body.light .filter-bar { border-bottom-color: #eee; }
+    body.light .filter-pill { background: #f5f5f5; border-color: #ddd; color: #666; }
+    body.light .filter-pill.active { color: #333; }
+    body.light .filter-pill[data-filter="spklu"].active { background: #22c55e15; }
+    body.light .filter-pill[data-filter="pln"].active { background: #f59e0b15; }
+    body.light .filter-pill[data-filter="mandatory"].active { background: #ef444415; }
+    body.light .filter-pill[data-filter="ferry"].active { background: #06b6d415; }
+    body.light .action-btn { background: #f5f5f5; border-color: #ddd; color: #555; }
+    body.light .action-btn.primary { background: #eff6ff; border-color: #93c5fd; color: #3b82f6; }
+    body.light .action-btn.whatsapp { border-color: #86efac; color: #16a34a; }
+    body.light .action-btn.telegram { border-color: #7dd3fc; color: #0284c7; }
+    body.light .legend-bar { background: rgba(255,255,255,0.92); border-top-color: #eee; }
+    body.light .legend-pill { background: #f5f5f5; }
+    body.light .minimap { border-color: #ddd; }
+    body.light .gps-badge { background: rgba(255,255,255,0.95); border-color: #ddd; }
+    body.light .gps-badge #gpsText { color: #333; }
+    body.light .theme-toggle { background: rgba(255,255,255,0.9); border-color: #ddd; color: #333; }
+    body.light .popup-content h3 { color: #111; }
+    body.light .popup-content .addr { color: #555; }
+    body.light .popup-content .desc { color: #777; }
+    body.light .popup-content .dist-info { color: #666; border-top-color: #eee; }
+    body.light .share-mini-btn { background: #f5f5f5; border-color: #ddd; }
+    body.light .leaflet-popup-content-wrapper { background: #fff !important; color: #222 !important; border-color: #ddd !important; }
+    body.light .leaflet-popup-tip { background: #fff !important; }
+    body.light .leaflet-control-zoom a { background: rgba(255,255,255,0.9) !important; color: #333 !important; border-color: #ddd !important; }
+
+    /* Community suggest */
+    .suggest-section {
+      padding: 10px 16px 6px;
+      border-top: 1px solid #222;
+      margin-top: 8px;
+    }
+    .suggest-btn {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      width: 100%; padding: 12px;
+      background: linear-gradient(135deg, #1a1a2e, #16213e);
+      border: 1px solid #3b82f6; border-radius: 12px;
+      color: #3b82f6; font-size: 13px; font-weight: 700;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .suggest-btn:active { transform: scale(0.97); background: #1a2744; }
+    body.light .suggest-btn { background: #eff6ff; border-color: #93c5fd; }
+
+    /* Route alt card */
+    .alt-routes {
+      padding: 6px 16px 8px;
+      border-top: 1px solid #222;
+      margin-top: 8px;
+    }
+    .alt-routes h4 {
+      font-size: 11px; color: #666; margin-bottom: 6px;
+      text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    .alt-route-item {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 8px 10px; background: #1a1a1a; border: 1px solid #2a2a2a;
+      border-radius: 8px; margin-bottom: 4px;
+      font-size: 12px; color: #ccc;
+    }
+    .alt-route-item .alt-info { display: flex; align-items: center; gap: 8px; }
+    .alt-route-item .alt-dist { font-weight: 700; color: #fff; }
+    .alt-route-item .alt-time { font-size: 10px; color: #666; }
+    .alt-route-item .alt-label { font-size: 10px; color: #888; }
+    body.light .alt-route-item { background: #f9f9f9; border-color: #eee; color: #555; }
+    body.light .alt-route-item .alt-dist { color: #111; }
+
+    
+    /* PWA Install banner */
+    .pwa-banner {
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 1200;
+      background: linear-gradient(135deg, #1a1a2e, #16213e);
+      border-top: 2px solid #3b82f6;
+      padding: 14px 16px;
+      padding-bottom: calc(14px + env(safe-area-inset-bottom));
+      display: none; align-items: center; gap: 12px;
+      animation: slideUp 0.3s ease;
+    }
+    .pwa-banner.show { display: flex; }
+    @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+    .pwa-banner .pwa-icon { font-size: 28px; }
+    .pwa-banner .pwa-text { flex: 1; }
+    .pwa-banner .pwa-text h4 { font-size: 13px; color: #fff; margin-bottom: 2px; }
+    .pwa-banner .pwa-text p { font-size: 11px; color: #888; }
+    .pwa-banner .pwa-install-btn {
+      padding: 10px 18px; background: #3b82f6; color: #fff;
+      font-size: 13px; font-weight: 700; border: none; border-radius: 10px;
+      cursor: pointer; white-space: nowrap;
+    }
+    .pwa-banner .pwa-install-btn:active { background: #2563eb; }
+    .pwa-banner .pwa-close {
+      width: 28px; height: 28px; background: none; border: none;
+      color: #666; font-size: 18px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+    }
+    body.light .pwa-banner { background: #fff; border-top-color: #3b82f6; }
+    body.light .pwa-banner .pwa-text h4 { color: #111; }
+
     /* ═══════════════════ MAP OVERRIDES ═══════════════════ */
     .leaflet-popup-content-wrapper {
       background: #1a1a1a !important; color: #e0e0e0 !important;
@@ -361,6 +487,22 @@
   </style>
 </head>
 <body>
+
+
+
+  <!-- PWA Install Banner -->
+  <div class="pwa-banner" id="pwaBanner">
+    <span class="pwa-icon">📱</span>
+    <div class="pwa-text">
+      <h4>Install Peta SPKLU</h4>
+      <p>Akses offline tanpa internet</p>
+    </div>
+    <button class="pwa-install-btn" onclick="installPWA()">Install</button>
+    <button class="pwa-close" onclick="closePWA()">✕</button>
+  </div>
+
+  <!-- Theme Toggle -->
+  <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">🌙</button>
 
   <!-- Header -->
   <div class="header">
@@ -509,7 +651,17 @@
     function mkIcon(t) {
       const c = cfg[t];
       return L.divIcon({
-        html:`<div style="width:${c.s}px;height:${c.s}px;background:${c.c};border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:${c.s*.5}px;box-shadow:0 0 16px ${c.c}88;border:2.5px solid #fff;cursor:pointer">${c.i}</div>`,
+        html:`<div style="width:${c.s}px;height:${c.s}px;background:${c.c};border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:${c.s*.5}px;box-shadow:0 0 16px ${c.c}88;border:2.5px solid #fff;cursor:pointer">${c.i}</div>
+    <!-- Community Suggest -->
+    <div class="suggest-section">
+      <a class="suggest-btn" href="mailto:yujiwh@yujiwh.xyz?subject=Info SPKLU Baru&body=Nama SPKLU:%0ALokasi (koordinat):%0AKapasitas charger:%0AJam operasional:" target="_blank" rel="noopener">
+        ➕ Tambah SPKLU Baru
+      </a>
+      <div style="text-align:center;margin-top:6px;font-size:10px;color:#555">
+        Punya info SPKLU baru? Bantu sesama rider! 🏍️
+      </div>
+    </div>
+`,
         className:'', iconSize:[c.s,c.s], iconAnchor:[c.s/2,c.s/2], popupAnchor:[0,-c.s/2-4]
       });
     }
@@ -818,6 +970,54 @@
       } else {
         navigator.clipboard.writeText(text).then(() => alert('Link tersalin!'));
       }
+    }
+
+
+    // ═══════════════════ THEME TOGGLE ═══════════════════
+    let isDark = true;
+    const savedTheme = localStorage.getItem('spklu-theme');
+    if (savedTheme === 'light') { document.body.classList.add('light'); isDark = false; document.getElementById('themeToggle').textContent = '☀️'; }
+
+    function toggleTheme() {
+      isDark = !isDark;
+      document.body.classList.toggle('light', !isDark);
+      document.getElementById('themeToggle').textContent = isDark ? '🌙' : '☀️';
+      localStorage.setItem('spklu-theme', isDark ? 'dark' : 'light');
+    }
+
+    // ═══════════════════ PWA INSTALL ═══════════════════
+    let deferredPrompt = null;
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      // Show banner if not installed and not dismissed
+      if (!localStorage.getItem('pwa-dismissed')) {
+        setTimeout(() => document.getElementById('pwaBanner').classList.add('show'), 2000);
+      }
+    });
+
+    function installPWA() {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then(r => {
+          document.getElementById('pwaBanner').classList.remove('show');
+          deferredPrompt = null;
+        });
+      } else {
+        // Fallback for iOS / unsupported
+        alert('Untuk install:\niOS: Tap Share → Add to Home Screen\nAndroid: Tap menu ⋮ → Add to Home Screen');
+      }
+    }
+
+    function closePWA() {
+      document.getElementById('pwaBanner').classList.remove('show');
+      localStorage.setItem('pwa-dismissed', '1');
+    }
+
+    // ═══════════════════ DETECT INSTALLED ═══════════════════
+    if (window.matchMedia('(display-mode: standalone)').matches) {
+      document.getElementById('pwaBanner').style.display = 'none';
     }
 
     // ═══════════════════ RESIZE ═══════════════════
