@@ -2,448 +2,511 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#0a0a0a">
   <title>Peta SPKLU — Motor Listrik Jember–Bali</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
-  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0a0a0a; color: #e0e0e0; }
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    html, body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0a0a0a; color: #e0e0e0;
+      overscroll-behavior: none;
+      height: 100%; height: -webkit-fill-available;
+    }
 
-    #map { width: 100%; height: 100vh; }
+    #map {
+      width: 100%;
+      height: 100vh; height: 100dvh;
+      position: fixed; top: 0; left: 0;
+    }
 
+    /* ═══════════════════ HEADER ═══════════════════ */
     .header {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-      background: rgba(10,10,10,0.92); backdrop-filter: blur(12px);
-      padding: 12px 20px; border-bottom: 1px solid #222;
-      display: flex; align-items: center; gap: 16px;
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 1100;
+      background: rgba(10,10,10,0.94);
+      backdrop-filter: saturate(180%) blur(20px);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      padding: 10px 16px;
+      padding-top: calc(10px + env(safe-area-inset-top));
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      display: flex; align-items: center; gap: 10px;
     }
     .header h1 {
-      font-size: 16px; font-weight: 700; color: #fff;
-      white-space: nowrap;
+      font-size: 15px; font-weight: 700; color: #fff;
+      letter-spacing: -0.2px;
     }
     .header .badge {
-      background: #22c55e; color: #000; font-size: 11px; font-weight: 700;
-      padding: 2px 8px; border-radius: 10px; white-space: nowrap;
+      background: #22c55e; color: #000; font-size: 10px; font-weight: 700;
+      padding: 2px 7px; border-radius: 8px; white-space: nowrap;
+      letter-spacing: 0.3px;
     }
     .header .stats {
-      font-size: 12px; color: #888; margin-left: auto;
+      font-size: 11px; color: #666; margin-left: auto;
       white-space: nowrap;
     }
 
-    /* Sidebar */
-    .sidebar {
-      position: fixed; top: 50px; left: 0; bottom: 0; width: 340px;
-      background: rgba(10,10,10,0.95); backdrop-filter: blur(12px);
-      border-right: 1px solid #222; z-index: 999;
-      overflow-y: auto; padding: 12px;
-      transition: transform 0.3s ease;
+    /* ═══════════════════ BOTTOM SHEET ═══════════════════ */
+    .bottom-sheet {
+      position: fixed; left: 0; right: 0; bottom: 0;
+      z-index: 1050;
+      background: #111;
+      border-top: 1px solid #222;
+      border-radius: 16px 16px 0 0;
+      transform: translateY(calc(100% - 56px));
+      transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+      max-height: 70vh;
+      touch-action: pan-y;
+      will-change: transform;
     }
-    .sidebar.collapsed { transform: translateX(-340px); }
-    .sidebar-toggle {
-      position: fixed; top: 56px; left: 346px; z-index: 1001;
-      background: #1a1a1a; border: 1px solid #333; color: #fff;
-      width: 32px; height: 32px; border-radius: 6px; cursor: pointer;
-      font-size: 16px; display: flex; align-items: center; justify-content: center;
-      transition: left 0.3s ease;
+    .bottom-sheet.expanded {
+      transform: translateY(0);
+      max-height: 85vh;
     }
-    .sidebar-toggle.shifted { left: 6px; }
+    .bottom-sheet.full {
+      transform: translateY(0);
+      max-height: 92vh;
+    }
 
+    .sheet-handle {
+      display: flex; justify-content: center;
+      padding: 10px 0 6px; cursor: pointer;
+    }
+    .sheet-handle::after {
+      content: '';
+      width: 36px; height: 4px;
+      background: #444; border-radius: 2px;
+    }
+
+    .sheet-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 16px 10px;
+    }
+    .sheet-header h2 {
+      font-size: 14px; font-weight: 700; color: #fff;
+    }
+    .sheet-header .summary {
+      font-size: 11px; color: #666;
+    }
+
+    .sheet-body {
+      overflow-y: auto;
+      max-height: calc(85vh - 100px);
+      padding: 0 12px 24px;
+      padding-bottom: calc(24px + env(safe-area-inset-bottom));
+      -webkit-overflow-scrolling: touch;
+    }
+
+    /* ═══════════════════ ROUTE CARDS ═══════════════════ */
     .route-card {
-      background: #151515; border: 1px solid #2a2a2a; border-radius: 10px;
-      padding: 12px; margin-bottom: 10px; cursor: pointer;
-      transition: border-color 0.2s, transform 0.2s;
+      background: #1a1a1a;
+      border: 1px solid #2a2a2a;
+      border-radius: 12px;
+      padding: 14px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
     }
-    .route-card:hover { border-color: #3b82f6; transform: translateY(-1px); }
-    .route-card.active { border-color: #3b82f6; background: #1a1f2e; }
-    .route-card h3 {
-      font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 6px;
-      display: flex; align-items: center; gap: 8px;
+    .route-card:active { background: #1e2330; }
+    .route-card.active { border-color: #3b82f6; background: #141a2e; }
+
+    .route-card .card-top {
+      display: flex; align-items: center; gap: 10px; margin-bottom: 8px;
     }
-    .route-card .meta {
-      font-size: 11px; color: #888; margin-bottom: 8px;
-    }
-    .route-card .stops {
-      display: flex; flex-direction: column; gap: 4px;
-    }
-    .stop-item {
-      display: flex; align-items: center; gap: 8px; font-size: 12px;
-      color: #ccc; padding: 4px 6px; border-radius: 6px;
-      transition: background 0.15s;
-    }
-    .stop-item:hover { background: #1f2937; }
-    .stop-dot {
+    .route-card .route-dot {
       width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
     }
-    .stop-connector {
-      width: 2px; height: 12px; margin-left: 4px;
-      background: #333;
+    .route-card .route-name {
+      font-size: 13px; font-weight: 700; color: #fff; flex: 1;
     }
-    .stop-dist {
-      font-size: 10px; color: #666; margin-left: auto; white-space: nowrap;
+    .route-card .route-dist {
+      font-size: 11px; font-weight: 600; padding: 2px 8px;
+      border-radius: 8px;
+    }
+    .route-card .route-meta {
+      font-size: 11px; color: #666; margin-bottom: 10px;
+      padding-left: 20px;
     }
 
-    /* Popup */
-    .leaflet-popup-content-wrapper {
-      background: #1a1a1a; color: #e0e0e0; border-radius: 10px;
-      border: 1px solid #333; box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+    /* Stops timeline */
+    .stops { padding-left: 4px; }
+    .stop-row {
+      display: flex; align-items: stretch; gap: 0;
     }
-    .leaflet-popup-tip { background: #1a1a1a; }
-    .popup-content { padding: 4px; }
+    .stop-timeline {
+      display: flex; flex-direction: column; align-items: center;
+      width: 20px; flex-shrink: 0;
+    }
+    .stop-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      flex-shrink: 0; margin-top: 6px;
+    }
+    .stop-line {
+      width: 2px; flex: 1; background: #333; min-height: 8px;
+    }
+    .stop-info {
+      flex: 1; padding: 4px 0 10px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .stop-name {
+      font-size: 12px; color: #ccc; font-weight: 500;
+    }
+    .stop-name .warn { color: #ef4444; font-weight: 700; }
+    .stop-meta {
+      font-size: 10px; color: #555; white-space: nowrap; margin-left: 8px;
+    }
+
+    /* ═══════════════════ LEGEND (mobile) ═══════════════════ */
+    .legend-bar {
+      position: fixed;
+      bottom: 56px; left: 0; right: 0;
+      z-index: 1040;
+      background: rgba(10,10,10,0.88);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      display: flex; align-items: center; justify-content: center;
+      gap: 12px; padding: 6px 12px;
+      border-top: 1px solid rgba(255,255,255,0.04);
+      font-size: 10px; color: #888;
+      transition: transform 0.3s ease;
+    }
+    .legend-bar.hidden { transform: translateY(100%); }
+    .legend-pill {
+      display: flex; align-items: center; gap: 5px;
+      background: #1a1a1a; padding: 3px 8px; border-radius: 8px;
+      white-space: nowrap;
+    }
+    .legend-dot {
+      width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+    }
+
+    /* ═══════════════════ MAP OVERRIDES ═══════════════════ */
+    .leaflet-popup-content-wrapper {
+      background: #1a1a1a !important; color: #e0e0e0 !important;
+      border-radius: 12px !important; border: 1px solid #333 !important;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.6) !important;
+      margin-bottom: 0 !important;
+    }
+    .leaflet-popup-tip { background: #1a1a1a !important; }
+    .leaflet-popup-close-button { color: #666 !important; font-size: 20px !important; }
+    .popup-content { padding: 2px; }
     .popup-content h3 { font-size: 14px; color: #fff; margin-bottom: 4px; }
     .popup-content .tag {
       display: inline-block; font-size: 10px; font-weight: 600;
       padding: 2px 8px; border-radius: 8px; margin-bottom: 6px;
     }
-    .popup-content p { font-size: 12px; color: #aaa; line-height: 1.4; }
+    .popup-content .addr { font-size: 12px; color: #aaa; line-height: 1.4; margin-bottom: 2px; }
+    .popup-content .desc { font-size: 11px; color: #777; line-height: 1.4; }
+    .popup-content .dist-info {
+      font-size: 11px; color: #888; margin-top: 6px;
+      padding-top: 6px; border-top: 1px solid #2a2a2a;
+    }
     .popup-content .nav-btn {
-      display: inline-block; margin-top: 8px; padding: 6px 14px;
-      background: #3b82f6; color: #fff; font-size: 11px; font-weight: 600;
-      text-decoration: none; border-radius: 6px; transition: background 0.2s;
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+      margin-top: 10px; padding: 10px;
+      background: #3b82f6; color: #fff; font-size: 13px; font-weight: 600;
+      text-decoration: none; border-radius: 10px;
+      transition: background 0.15s;
     }
-    .popup-content .nav-btn:hover { background: #2563eb; }
+    .popup-content .nav-btn:active { background: #2563eb; }
 
-    /* Legend */
-    .legend {
-      position: fixed; bottom: 20px; right: 20px; z-index: 1000;
-      background: rgba(10,10,10,0.92); backdrop-filter: blur(12px);
-      border: 1px solid #333; border-radius: 10px; padding: 12px 16px;
+    .leaflet-control-zoom { border: none !important; }
+    .leaflet-control-zoom a {
+      background: rgba(10,10,10,0.9) !important;
+      color: #fff !important; border: 1px solid #333 !important;
+      width: 36px !important; height: 36px !important;
+      line-height: 36px !important; font-size: 18px !important;
+      border-radius: 8px !important;
     }
-    .legend h4 { font-size: 11px; color: #888; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
-    .legend-item { display: flex; align-items: center; gap: 8px; font-size: 12px; margin-bottom: 4px; }
-    .legend-dot { width: 12px; height: 12px; border-radius: 50%; }
+    .leaflet-control-zoom a:active { background: #333 !important; }
+    .leaflet-control-zoom-in { margin-bottom: 6px !important; border-radius: 8px !important; }
+    .leaflet-control-zoom-out { border-radius: 8px !important; }
 
-    /* Info panel */
-    .info-panel {
-      position: fixed; bottom: 20px; left: 360px; z-index: 1000;
-      background: rgba(10,10,10,0.92); backdrop-filter: blur(12px);
-      border: 1px solid #333; border-radius: 10px; padding: 12px 16px;
-      font-size: 12px; max-width: 280px;
-      transition: left 0.3s ease;
+    /* ═══════════════════ DESKTOP ═══════════════════ */
+    @media (min-width: 769px) {
+      .bottom-sheet {
+        top: 50px; bottom: auto; right: 0; left: auto;
+        width: 360px;
+        border-radius: 0;
+        border-left: 1px solid #222;
+        border-top: none;
+        transform: none;
+        max-height: calc(100vh - 50px);
+      }
+      .bottom-sheet.collapsed-desktop { transform: translateX(360px); }
+      .sheet-handle { display: none; }
+      .sheet-body { max-height: calc(100vh - 50px); }
+
+      .legend-bar {
+        bottom: 20px; left: auto; right: 20px;
+        border-radius: 10px; border: 1px solid #333;
+        width: auto;
+      }
+      .toggle-desktop {
+        position: fixed; top: 56px; right: 366px;
+        z-index: 1060;
+        background: #1a1a1a; border: 1px solid #333;
+        color: #fff; width: 32px; height: 32px;
+        border-radius: 6px; cursor: pointer;
+        font-size: 14px; display: flex;
+        align-items: center; justify-content: center;
+      }
+      .toggle-desktop.shifted { right: 6px; }
     }
-    .info-panel.shifted { left: 20px; }
-
-    /* Mobile */
-    @media (max-width: 768px) {
-      .sidebar { width: 100%; top: 50px; height: auto; max-height: 40vh; border-right: none; border-bottom: 1px solid #222; }
-      .sidebar.collapsed { transform: translateY(100%); }
-      .sidebar-toggle { left: calc(50% - 16px) !important; top: calc(50vh + 50px); }
-      .sidebar-toggle.shifted { left: calc(50% - 16px) !important; }
-      .info-panel { display: none; }
-    }
-
-    /* Scrollbar */
-    .sidebar::-webkit-scrollbar { width: 4px; }
-    .sidebar::-webkit-scrollbar-track { background: transparent; }
-    .sidebar::-webkit-scrollbar-thumb { background: #333; border-radius: 2px; }
   </style>
 </head>
 <body>
 
   <!-- Header -->
   <div class="header">
-    <h1>⚡ Peta SPKLU Motor Listrik</h1>
-    <span class="badge">Jember → Bali</span>
-    <span class="stats">339 km · 2 rute · 8 SPKLU</span>
-  </div>
-
-  <!-- Sidebar Toggle -->
-  <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()">◀</button>
-
-  <!-- Sidebar -->
-  <div class="sidebar" id="sidebar">
-    <!-- Route 1 -->
-    <div class="route-card active" onclick="flyToRoute(1)" data-route="1">
-      <h3>
-        <span style="color:#3b82f6">●</span> Rute 1 — Jember → Gilimanuk
-        <span style="font-size:10px;color:#3b82f6;font-weight:600;margin-left:auto">193 KM</span>
-      </h3>
-      <div class="meta">🚗 4h 53m · via Bondowoso–Situbondo–Banyuwangi</div>
-      <div class="stops">
-        <div class="stop-item"><span class="stop-dot" style="background:#22c55e"></span>🏠 HOUSE<div class="stop-dist">0 km</div></div>
-        <div class="stop-connector"></div>
-        <div class="stop-item"><span class="stop-dot" style="background:#f59e0b"></span>PLN UP3 Jember<div class="stop-dist">38 km</div></div>
-        <div class="stop-connector"></div>
-        <div class="stop-item"><span class="stop-dot" style="background:#f59e0b"></span>PLN ULP Bondowoso<div class="stop-dist">34 km</div></div>
-        <div class="stop-connector"></div>
-        <div class="stop-item"><span class="stop-dot" style="background:#ef4444"></span>PLN UP3 Situbondo<div class="stop-dist">34 km</div></div>
-        <div class="stop-connector"></div>
-        <div class="stop-item"><span class="stop-dot" style="background:#f59e0b"></span>Grand Watudodol<div class="stop-dist">80 km</div></div>
-        <div class="stop-connector"></div>
-        <div class="stop-item"><span class="stop-dot" style="background:#06b6d4"></span>⛴️ Penyeberangan<div class="stop-dist">13 km</div></div>
-        <div class="stop-connector"></div>
-        <div class="stop-item"><span class="stop-dot" style="background:#22c55e"></span>SPKLU Gilimanuk<div class="stop-dist">— km</div></div>
-      </div>
-    </div>
-
-    <!-- Route 2 -->
-    <div class="route-card" onclick="flyToRoute(2)" data-route="2">
-      <h3>
-        <span style="color:#8b5cf6">●</span> Rute 2 — Gilimanuk → Kost
-        <span style="font-size:10px;color:#8b5cf6;font-weight:600;margin-left:auto">146 KM</span>
-      </h3>
-      <div class="meta">🚗 3h 46m · via Negara–Pekutatan–Mengwi</div>
-      <div class="stops">
-        <div class="stop-item"><span class="stop-dot" style="background:#22c55e"></span>SPKLU Gilimanuk<div class="stop-dist">0 km</div></div>
-        <div class="stop-connector"></div>
-        <div class="stop-item"><span class="stop-dot" style="background:#f59e0b"></span>PLN ULP Negara<div class="stop-dist">33 km</div></div>
-        <div class="stop-connector"></div>
-        <div class="stop-item"><span class="stop-dot" style="background:#22c55e"></span>SPKLU Tiang Listrik Yeh Leh<div class="stop-dist">37 km</div></div>
-        <div class="stop-connector"></div>
-        <div class="stop-item"><span class="stop-dot" style="background:#22c55e"></span>SPKLU Jl. Raya Munggu<div class="stop-dist">45 km</div></div>
-        <div class="stop-connector"></div>
-        <div class="stop-item"><span class="stop-dot" style="background:#22c55e"></span>🏠 KOST<div class="stop-dist">30 km</div></div>
-      </div>
-    </div>
-
-    <!-- Info -->
-    <div style="padding:8px;font-size:11px;color:#555;line-height:1.5;">
-      <strong style="color:#888">Keterangan:</strong><br>
-      🟢 Khusus SPKLU · 🟡 Kantor PLN (tanya SPKLU) · 🔴 WAJIB isi penuh<br>
-      🔵 Penyeberangan ferry · Klik marker untuk navigasi
-    </div>
+    <h1>⚡ SPKLU Motor Listrik</h1>
+    <span class="badge">JEMBER → BALI</span>
+    <span class="stats">339 km · 2 rute</span>
   </div>
 
   <!-- Map -->
   <div id="map"></div>
 
-  <!-- Legend -->
-  <div class="legend">
-    <h4>Legenda</h4>
-    <div class="legend-item"><span class="legend-dot" style="background:#22c55e"></span> SPKLU</div>
-    <div class="legend-item"><span class="legend-dot" style="background:#f59e0b"></span> Kantor PLN</div>
-    <div class="legend-item"><span class="legend-dot" style="background:#ef4444"></span> WAJIB Full</div>
-    <div class="legend-item"><span class="legend-dot" style="background:#06b6d4"></span> Ferry</div>
-    <div class="legend-item"><span class="legend-dot" style="background:#8b5cf6"></span> Rumah/Kost</div>
+  <!-- Desktop sidebar toggle -->
+  <button class="toggle-desktop" id="toggleDesktop" onclick="toggleSidebar()" style="display:none">◀</button>
+
+  <!-- Legend bar -->
+  <div class="legend-bar" id="legendBar">
+    <div class="legend-pill"><span class="legend-dot" style="background:#22c55e"></span>SPKLU</div>
+    <div class="legend-pill"><span class="legend-dot" style="background:#f59e0b"></span>Kantor PLN</div>
+    <div class="legend-pill"><span class="legend-dot" style="background:#ef4444"></span>Wajib Full</div>
+    <div class="legend-pill"><span class="legend-dot" style="background:#06b6d4"></span>Ferry</div>
+    <div class="legend-pill"><span class="legend-dot" style="background:#8b5cf6"></span>Home/Kost</div>
   </div>
 
-  <!-- Info Panel -->
-  <div class="info-panel" id="infoPanel">
-    Klik <strong>marker</strong> untuk detail & navigasi.<br>
-    Klik <strong>rute</strong> di sidebar untuk zoom.
+  <!-- Bottom Sheet / Sidebar -->
+  <div class="bottom-sheet" id="sheet">
+    <div class="sheet-handle" id="sheetHandle"></div>
+    <div class="sheet-header">
+      <div>
+        <h2>Rute Perjalanan</h2>
+        <div class="summary">339 km total · 8 SPKLU · 2 rute</div>
+      </div>
+    </div>
+    <div class="sheet-body">
+
+      <!-- Route 1 -->
+      <div class="route-card active" onclick="flyToRoute(1)" data-route="1">
+        <div class="card-top">
+          <span class="route-dot" style="background:#3b82f6"></span>
+          <span class="route-name">Rute 1 — Jember → Gilimanuk</span>
+          <span class="route-dist" style="background:#3b82f620;color:#3b82f6">193 km</span>
+        </div>
+        <div class="route-meta">🚗 4h 53m · via Bondowoso–Situbondo–Banyuwangi</div>
+        <div class="stops">
+          <div class="stop-row"><div class="stop-timeline"><span class="stop-dot" style="background:#8b5cf6"></span><span class="stop-line"></span></div><div class="stop-info"><span class="stop-name">🏠 HOUSE</span><span class="stop-meta">0 km</span></div></div>
+          <div class="stop-row"><div class="stop-timeline"><span class="stop-dot" style="background:#f59e0b"></span><span class="stop-line"></span></div><div class="stop-info"><span class="stop-name">PLN UP3 Jember</span><span class="stop-meta">38 km · 52m</span></div></div>
+          <div class="stop-row"><div class="stop-timeline"><span class="stop-dot" style="background:#f59e0b"></span><span class="stop-line"></span></div><div class="stop-info"><span class="stop-name">PLN ULP Bondowoso</span><span class="stop-meta">34 km · 49m</span></div></div>
+          <div class="stop-row"><div class="stop-timeline"><span class="stop-dot" style="background:#ef4444"></span><span class="stop-line"></span></div><div class="stop-info"><span class="stop-name"><span class="warn">⚠️ PLN UP3 Situbondo</span></span><span class="stop-meta">34 km · 44m</span></div></div>
+          <div class="stop-row"><div class="stop-timeline"><span class="stop-dot" style="background:#f59e0b"></span><span class="stop-line"></span></div><div class="stop-info"><span class="stop-name">Grand Watudodol</span><span class="stop-meta">80 km · 1j 28m</span></div></div>
+          <div class="stop-row"><div class="stop-timeline"><span class="stop-dot" style="background:#06b6d4"></span><span class="stop-line"></span></div><div class="stop-info"><span class="stop-name">⛴️ Penyeberangan</span><span class="stop-meta">13 km</span></div></div>
+          <div class="stop-row"><div class="stop-timeline"><span class="stop-dot" style="background:#22c55e"></span><span class="stop-line" style="background:transparent"></span></div><div class="stop-info"><span class="stop-name">⚡ SPKLU Gilimanuk</span><span class="stop-meta">— km</span></div></div>
+        </div>
+      </div>
+
+      <!-- Route 2 -->
+      <div class="route-card" onclick="flyToRoute(2)" data-route="2">
+        <div class="card-top">
+          <span class="route-dot" style="background:#8b5cf6"></span>
+          <span class="route-name">Rute 2 — Gilimanuk → Kost</span>
+          <span class="route-dist" style="background:#8b5cf620;color:#8b5cf6">146 km</span>
+        </div>
+        <div class="route-meta">🚗 3h 46m · via Negara–Pekutatan–Mengwi</div>
+        <div class="stops">
+          <div class="stop-row"><div class="stop-timeline"><span class="stop-dot" style="background:#22c55e"></span><span class="stop-line"></span></div><div class="stop-info"><span class="stop-name">⚡ SPKLU Gilimanuk</span><span class="stop-meta">0 km</span></div></div>
+          <div class="stop-row"><div class="stop-timeline"><span class="stop-dot" style="background:#f59e0b"></span><span class="stop-line"></span></div><div class="stop-info"><span class="stop-name">PLN ULP Negara</span><span class="stop-meta">33 km · 43m</span></div></div>
+          <div class="stop-row"><div class="stop-timeline"><span class="stop-dot" style="background:#22c55e"></span><span class="stop-line"></span></div><div class="stop-info"><span class="stop-name">⚡ SPKLU Yeh Leh</span><span class="stop-meta">37 km · 54m</span></div></div>
+          <div class="stop-row"><div class="stop-timeline"><span class="stop-dot" style="background:#22c55e"></span><span class="stop-line"></span></div><div class="stop-info"><span class="stop-name">⚡ SPKLU Jl. Raya Munggu</span><span class="stop-meta">45 km · 1j 20m</span></div></div>
+          <div class="stop-row"><div class="stop-timeline"><span class="stop-dot" style="background:#8b5cf6"></span><span class="stop-line" style="background:transparent"></span></div><div class="stop-info"><span class="stop-name">🏠 KOST</span><span class="stop-meta">30 km · 49m</span></div></div>
+        </div>
+      </div>
+
+      <!-- Tips -->
+      <div style="padding:10px 4px 0;font-size:11px;color:#555;line-height:1.6;">
+        <strong style="color:#777">💡 Tips:</strong> Tap marker untuk detail + navigasi Google Maps. Situbondo wajib full charge (80 km ke Watudodol). Backup SPKLU di Yeh Leh: Rest Area (+2.5 km).
+      </div>
+
+    </div>
   </div>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script>
-    // === DATA ===
+    // ═══════════════════ DATA ═══════════════════
     const locations = [
-      {
-        id: 'house', name: '🏠 HOUSE', sub: 'Starting point',
-        lat: -8.2100, lng: 114.3600, type: 'home',
-        route: [1], desc: 'Titik awal perjalanan'
-      },
-      {
-        id: 'pln-jember', name: 'PLN UP3 Jember', sub: 'Jl. Gajah Mada No.198, Kaliwates',
-        lat: -8.1791, lng: 113.6777, type: 'pln',
-        route: [1], dist: '38 km', time: '52 menit',
-        desc: 'Unit Pelaksana Pelayanan Pelanggan'
-      },
-      {
-        id: 'pln-bondowoso', name: 'PLN ULP Bondowoso', sub: 'Bondowoso, Jawa Timur',
-        lat: -7.9451, lng: 113.8821, type: 'pln',
-        route: [1], dist: '34 km', time: '49 menit',
-        desc: 'Unit Layanan Pelanggan'
-      },
-      {
-        id: 'pln-situbondo', name: 'PLN UP3 Situbondo', sub: 'Jl. Cemp. No.35, Patokan',
-        lat: -7.7064, lng: 113.9958, type: 'mandatory',
-        route: [1], dist: '34 km', time: '44 menit',
-        desc: '⚠️ WAJIB FULL — jarak terpanjang berikutnya 80 km'
-      },
-      {
-        id: 'watudodol', name: 'Grand Watudodol', sub: 'Banyuwangi, Jawa Timur',
-        lat: -8.0973, lng: 114.4121, type: 'pln',
-        route: [1], dist: '80 km', time: '1j 28mnt',
-        desc: 'Sebelum penyeberangan ke Bali'
-      },
-      {
-        id: 'ferry', name: '⛴️ Penyeberangan', sub: 'Ketapang → Gilimanuk',
-        lat: -8.1428, lng: 114.4003, type: 'ferry',
-        route: [1, 2], dist: '13 km',
-        desc: 'Ferry Ketapang–Gilimanuk, sekitar 30 menit'
-      },
-      {
-        id: 'spklu-gilimanuk', name: 'SPKLU Gilimanuk', sub: 'Anjungan Betutu, Gilimanuk, Jembrana',
-        lat: -8.1670, lng: 114.4404, type: 'spklu',
-        route: [1, 2], dist: '—',
-        desc: 'SPKLU pertama di Bali. Titik antar rute.'
-      },
-      {
-        id: 'pln-negara', name: 'PLN ULP Negara', sub: 'Jl. Gatot Subroto No.33, Negara',
-        lat: -8.3601, lng: 114.6208, type: 'pln',
-        route: [2], dist: '33 km', time: '43 menit',
-        desc: 'Unit Layanan Pelanggan Negara'
-      },
-      {
-        id: 'spklu-yeh-leh', name: 'SPKLU Tiang Listrik Yeh Leh', sub: 'Jl. Raya Denpasar-Gilimanuk, Pekutatan',
-        lat: -8.4500, lng: 114.9000, type: 'spklu',
-        route: [2], dist: '37 km', time: '54 menit',
-        desc: 'SPKLU. Backup: Rest Area (2.5 km)'
-      },
-      {
-        id: 'spklu-munggu', name: 'SPKLU Jl. Raya Munggu', sub: 'Jl. By Pass Tanah Lot No.12, Mengwi',
-        lat: -8.5900, lng: 115.1350, type: 'spklu',
-        route: [2], dist: '45 km', time: '1j 20mnt',
-        desc: 'SPKLU terakhir sebelum tujuan'
-      },
-      {
-        id: 'kost', name: '🏠 KOST', sub: 'Tujuan akhir',
-        lat: -8.5800, lng: 115.1700, type: 'home',
-        route: [2], dist: '30 km', time: '49 menit',
-        desc: 'Tujuan akhir perjalanan'
-      }
+      { id:'house', name:'🏠 HOUSE', sub:'Starting point', lat:-8.21, lng:114.36, type:'home', route:[1], desc:'Titik awal perjalanan' },
+      { id:'pln-jember', name:'PLN UP3 Jember', sub:'Jl. Gajah Mada No.198, Kaliwates', lat:-8.1791, lng:113.6777, type:'pln', route:[1], dist:'38 km', time:'52 menit', desc:'Unit Pelaksana Pelayanan Pelanggan' },
+      { id:'pln-bondowoso', name:'PLN ULP Bondowoso', sub:'Bondowoso, Jawa Timur', lat:-7.9451, lng:113.8821, type:'pln', route:[1], dist:'34 km', time:'49 menit', desc:'Unit Layanan Pelanggan' },
+      { id:'pln-situbondo', name:'⚠️ PLN UP3 Situbondo', sub:'Jl. Cemp. No.35, Patokan', lat:-7.7064, lng:113.9958, type:'mandatory', route:[1], dist:'34 km', time:'44 menit', desc:'WAJIB FULL — jarak terpanjang 80 km ke Watudodol' },
+      { id:'watudodol', name:'Grand Watudodol', sub:'Banyuwangi, Jawa Timur', lat:-8.0973, lng:114.4121, type:'pln', route:[1], dist:'80 km', time:'1j 28m', desc:'Sebelum penyeberangan ke Bali' },
+      { id:'ferry', name:'⛴️ Penyeberangan', sub:'Ketapang → Gilimanuk', lat:-8.1428, lng:114.4003, type:'ferry', route:[1,2], dist:'13 km', desc:'Ferry ~30 menit' },
+      { id:'spklu-gilimanuk', name:'⚡ SPKLU Gilimanuk', sub:'Anjungan Betutu, Gilimanuk, Jembrana', lat:-8.167, lng:114.4404, type:'spklu', route:[1,2], dist:'—', desc:'SPKLU pertama di Bali. Titik antar rute.' },
+      { id:'pln-negara', name:'PLN ULP Negara', sub:'Jl. Gatot Subroto No.33, Negara', lat:-8.3601, lng:114.6208, type:'pln', route:[2], dist:'33 km', time:'43 menit', desc:'Unit Layanan Pelanggan Negara' },
+      { id:'spklu-yeh-leh', name:'⚡ SPKLU Tiang Listrik Yeh Leh', sub:'Jl. Raya Denpasar-Gilimanuk, Pekutatan', lat:-8.45, lng:114.9, type:'spklu', route:[2], dist:'37 km', time:'54 menit', desc:'Backup: Rest Area (2.5 km)' },
+      { id:'spklu-munggu', name:'⚡ SPKLU Jl. Raya Munggu', sub:'Jl. By Pass Tanah Lot No.12, Mengwi', lat:-8.59, lng:115.135, type:'spklu', route:[2], dist:'45 km', time:'1j 20m', desc:'SPKLU terakhir sebelum tujuan' },
+      { id:'kost', name:'🏠 KOST', sub:'Tujuan akhir', lat:-8.58, lng:115.17, type:'home', route:[2], dist:'30 km', time:'49 menit', desc:'Tujuan akhir perjalanan' }
     ];
 
-    // Route polylines
-    const route1Coords = [
-      [-8.2100, 114.3600],  // HOUSE
-      [-8.1791, 113.6777],  // PLN Jember
-      [-7.9451, 113.8821],  // PLN Bondowoso
-      [-7.7064, 113.9958],  // PLN Situbondo
-      [-8.0973, 114.4121],  // Watudodol
-      [-8.1428, 114.4003],  // Ferry
-      [-8.1670, 114.4404],  // Gilimanuk
-    ];
+    const route1 = [[-8.21,114.36],[-8.1791,113.6777],[-7.9451,113.8821],[-7.7064,113.9958],[-8.0973,114.4121],[-8.1428,114.4003],[-8.167,114.4404]];
+    const route2 = [[-8.167,114.4404],[-8.3601,114.6208],[-8.45,114.9],[-8.59,115.135],[-8.58,115.17]];
 
-    const route2Coords = [
-      [-8.1670, 114.4404],  // Gilimanuk
-      [-8.3601, 114.6208],  // PLN Negara
-      [-8.4500, 114.9000],  // Yeh Leh
-      [-8.5900, 115.1350],  // Munggu
-      [-8.5800, 115.1700],  // Kost
-    ];
+    // ═══════════════════ MAP ═══════════════════
+    const map = L.map('map', { center:[-8.15,114.4], zoom:10, zoomControl:false, attributionControl:false });
+    L.control.zoom({ position:'topright' }).addTo(map);
+    L.control.attribution({ position:'bottomleft', prefix:false }).addTo(map);
 
-    // === MAP INIT ===
-    const map = L.map('map', {
-      center: [-8.15, 114.4],
-      zoom: 10,
-      zoomControl: false
-    });
-
-    L.control.zoom({ position: 'topright' }).addTo(map);
-
-    // Dark tile
     L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-      attribution: '© OpenStreetMap · © CartoDB',
-      maxZoom: 19
+      attribution:'© OSM © CartoDB', maxZoom:19, subdomains:'abcd'
     }).addTo(map);
 
-    // === MARKERS ===
-    const typeConfig = {
-      home:    { color: '#8b5cf6', icon: '🏠', size: 36 },
-      spklu:   { color: '#22c55e', icon: '⚡', size: 32 },
-      pln:     { color: '#f59e0b', icon: '🏢', size: 30 },
-      mandatory:{ color: '#ef4444', icon: '🔴', size: 34 },
-      ferry:   { color: '#06b6d4', icon: '⛴️', size: 28 },
+    // ═══════════════════ MARKERS ═══════════════════
+    const cfg = {
+      home:     { c:'#8b5cf6', i:'🏠', s:38 },
+      spklu:    { c:'#22c55e', i:'⚡', s:36 },
+      pln:      { c:'#f59e0b', i:'🏢', s:32 },
+      mandatory:{ c:'#ef4444', i:'⚠️', s:38 },
+      ferry:    { c:'#06b6d4', i:'⛴️', s:30 }
     };
 
-    function createIcon(type) {
-      const cfg = typeConfig[type];
+    function mkIcon(t) {
+      const c = cfg[t];
       return L.divIcon({
-        html: `<div style="
-          width:${cfg.size}px; height:${cfg.size}px;
-          background:${cfg.color}; border-radius:50%;
-          display:flex; align-items:center; justify-content:center;
-          font-size:${cfg.size * 0.55}px;
-          box-shadow: 0 0 12px ${cfg.color}88;
-          border: 2px solid #fff;
-        ">${cfg.icon}</div>`,
-        className: '',
-        iconSize: [cfg.size, cfg.size],
-        iconAnchor: [cfg.size/2, cfg.size/2],
-        popupAnchor: [0, -cfg.size/2 - 4]
+        html:`<div style="width:${c.s}px;height:${c.s}px;background:${c.c};border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:${c.s*.5}px;box-shadow:0 0 16px ${c.c}88;border:2.5px solid #fff;cursor:pointer">${c.i}</div>`,
+        className:'', iconSize:[c.s,c.s], iconAnchor:[c.s/2,c.s/2], popupAnchor:[0,-c.s/2-4]
       });
     }
 
     const markers = {};
     locations.forEach(loc => {
-      const icon = createIcon(loc.type);
-      const marker = L.marker([loc.lat, loc.lng], { icon }).addTo(map);
+      const m = L.marker([loc.lat,loc.lng], { icon:mkIcon(loc.type) }).addTo(map);
+      const url = `https://www.google.com/maps/dir/?api=1&destination=${loc.lat},${loc.lng}&travelmode=driving`;
+      const tc = cfg[loc.type].c;
+      const tag = loc.type==='spklu'?'SPKLU':loc.type==='pln'?'KANTOR PLN':loc.type==='mandatory'?'WAJIB FULL':loc.type==='ferry'?'FERRY':loc.type==='home'?'HOME':'';
 
-      const googleMapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${loc.lat},${loc.lng}&travelmode=driving`;
-      const tagColor = typeConfig[loc.type].color;
-      const tagLabel = loc.type === 'spklu' ? 'SPKLU' :
-                       loc.type === 'pln' ? 'KANTOR PLN' :
-                       loc.type === 'mandatory' ? 'WAJIB FULL' :
-                       loc.type === 'ferry' ? 'FERRY' : loc.type === 'home' ? 'HOME' : '';
-
-      marker.bindPopup(`
+      m.bindPopup(`
         <div class="popup-content">
           <h3>${loc.name}</h3>
-          ${tagLabel ? `<span class="tag" style="background:${tagColor}22;color:${tagColor};border:1px solid ${tagColor}44">${tagLabel}</span>` : ''}
-          <p><strong>${loc.sub}</strong></p>
-          <p>${loc.desc || ''}</p>
-          ${loc.dist ? `<p style="color:#888;margin-top:4px">📍 ${loc.dist}${loc.time ? ' · ⏱️ ' + loc.time : ''}</p>` : ''}
-          <a class="nav-btn" href="${googleMapsUrl}" target="_blank">🧭 Buka di Google Maps</a>
+          ${tag?`<span class="tag" style="background:${tc}22;color:${tc};border:1px solid ${tc}44">${tag}</span>`:''}
+          <div class="addr">${loc.sub}</div>
+          ${loc.desc?`<div class="desc">${loc.desc}</div>`:''}
+          ${loc.dist?`<div class="dist-info">📍 ${loc.dist}${loc.time?' · ⏱️ '+loc.time:''}</div>`:''}
+          <a class="nav-btn" href="${url}" target="_blank" rel="noopener">🧭 Buka di Google Maps</a>
         </div>
-      `, { maxWidth: 280 });
+      `, { maxWidth:280, closeButton:true });
 
-      markers[loc.id] = marker;
+      m.on('click', () => {
+        if (!isDesktop) { expandSheet('collapse'); }
+      });
+
+      markers[loc.id] = m;
     });
 
-    // === ROUTE POLYLINES ===
-    const route1 = L.polyline(route1Coords, {
-      color: '#3b82f6', weight: 3, opacity: 0.7,
-      dashArray: '8, 6', smoothFactor: 1.5
-    }).addTo(map);
-
-    const route2 = L.polyline(route2Coords, {
-      color: '#8b5cf6', weight: 3, opacity: 0.7,
-      dashArray: '8, 6', smoothFactor: 1.5
-    }).addTo(map);
+    // Route lines
+    L.polyline(route1, { color:'#3b82f6', weight:3, opacity:0.6, dashArray:'8,6', smoothFactor:1.5 }).addTo(map);
+    L.polyline(route2, { color:'#8b5cf6', weight:3, opacity:0.6, dashArray:'8,6', smoothFactor:1.5 }).addTo(map);
 
     // Route labels
-    function addRouteLabel(latlng, text, color) {
-      L.marker(latlng, {
-        icon: L.divIcon({
-          html: `<div style="
-            background:${color}22; border:1px solid ${color}66;
-            color:${color}; font-size:11px; font-weight:700;
-            padding:3px 8px; border-radius:6px; white-space:nowrap;
-            backdrop-filter:blur(4px);
-          ">${text}</div>`,
-          className: '',
-          iconAnchor: [0, 0]
-        })
-      }).addTo(map);
+    function routeLabel(ll, txt, clr) {
+      L.marker(ll, { icon: L.divIcon({
+        html:`<div style="background:${clr}18;border:1px solid ${clr}44;color:${clr};font-size:10px;font-weight:700;padding:2px 8px;border-radius:6px;white-space:nowrap;backdrop-filter:blur(4px)">${txt}</div>`,
+        className:'', iconAnchor:[0,0]
+      })}).addTo(map);
+    }
+    routeLabel([-7.9,113.8], 'Rute 1 · 193 km', '#3b82f6');
+    routeLabel([-8.35,114.75], 'Rute 2 · 146 km', '#8b5cf6');
+
+    // ═══════════════════ BOTTOM SHEET ═══════════════════
+    const sheet = document.getElementById('sheet');
+    const handle = document.getElementById('sheetHandle');
+    const legend = document.getElementById('legendBar');
+    const isMobile = window.innerWidth <= 768;
+    const isDesktop = window.innerWidth > 768;
+
+    let sheetState = 'peek'; // peek | expanded | full
+
+    if (isMobile) {
+      let startY = 0, startTranslate = 0;
+
+      handle.addEventListener('click', () => {
+        if (sheetState === 'peek') expandSheet('expand');
+        else if (sheetState === 'expanded') expandSheet('full');
+        else expandSheet('collapse');
+      });
+
+      sheet.addEventListener('touchstart', e => {
+        startY = e.touches[0].clientY;
+        const transform = getComputedStyle(sheet).transform;
+        sheet.style.transition = 'none';
+      }, { passive:true });
+
+      sheet.addEventListener('touchend', e => {
+        sheet.style.transition = '';
+        const dy = e.changedTouches[0].clientY - startY;
+        if (dy < -40) {
+          if (sheetState === 'peek') expandSheet('expand');
+          else expandSheet('full');
+        } else if (dy > 40) {
+          if (sheetState === 'full') expandSheet('expand');
+          else expandSheet('collapse');
+        }
+      }, { passive:true });
+
+      function expandSheet(state) {
+        sheetState = state;
+        sheet.classList.remove('expanded','full');
+        if (state === 'expanded') sheet.classList.add('expanded');
+        if (state === 'full') sheet.classList.add('full');
+        legend.classList.toggle('hidden', state !== 'peek');
+      }
+
+      // Collapse when map tapped
+      map.on('click', () => { if (sheetState !== 'peek') expandSheet('peek'); });
+
+    } else {
+      // Desktop
+      document.getElementById('toggleDesktop').style.display = 'flex';
+      let sideOpen = true;
+
+      window.toggleSidebar = function() {
+        sideOpen = !sideOpen;
+        sheet.classList.toggle('collapsed-desktop', !sideOpen);
+        document.getElementById('toggleDesktop').classList.toggle('shifted', !sideOpen);
+        document.getElementById('toggleDesktop').textContent = sideOpen ? '◀' : '▶';
+        setTimeout(() => map.invalidateSize(), 350);
+      };
+
+      window.toggleSidebar = window.toggleSidebar;
     }
 
-    addRouteLabel([-7.9, 113.8], 'Rute 1: 193 km', '#3b82f6');
-    addRouteLabel([-8.35, 114.75], 'Rute 2: 146 km', '#8b5cf6');
-
-    // === SIDEBAR FUNCTIONS ===
-    function toggleSidebar() {
-      const sidebar = document.getElementById('sidebar');
-      const toggle = document.getElementById('sidebarToggle');
-      const infoPanel = document.getElementById('infoPanel');
-      sidebar.classList.toggle('collapsed');
-      toggle.classList.toggle('shifted');
-      toggle.textContent = sidebar.classList.contains('collapsed') ? '▶' : '◀';
-      if (infoPanel) infoPanel.classList.toggle('shifted');
-    }
-
-    function flyToRoute(n) {
+    // ═══════════════════ ROUTE FLY ═══════════════════
+    window.flyToRoute = function(n) {
       document.querySelectorAll('.route-card').forEach(c => c.classList.remove('active'));
       document.querySelector(`[data-route="${n}"]`).classList.add('active');
+      const coords = n === 1 ? route1 : route2;
+      map.flyToBounds(coords, { padding: isMobile ? [30,30] : [50,400], duration:1 });
 
-      const coords = n === 1 ? route1Coords : route2Coords;
-      const bounds = L.latLngBounds(coords);
-      map.flyToBounds(bounds, { padding: [50, 50], duration: 1.2 });
-    }
-
-    // Click marker from sidebar
-    function focusMarker(id) {
-      const m = markers[id];
-      if (m) {
-        map.flyTo(m.getLatLng(), 14, { duration: 0.8 });
-        m.openPopup();
+      if (isMobile && sheetState !== 'peek') {
+        setTimeout(() => expandSheet('peek'), 600);
       }
-    }
+    };
 
-    // === FIT VIEW ===
-    const allCoords = [...route1Coords, ...route2Coords];
-    map.fitBounds(L.latLngBounds(allCoords), { padding: [60, 400] });
+    // ═══════════════════ FIT VIEW ═══════════════════
+    const all = [...route1, ...route2];
+    map.fitBounds(all, { padding: isMobile ? [20,20,200,20] : [60,400] });
+
+    // ═══════════════════ RESIZE ═══════════════════
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => map.invalidateSize(), 200);
+    });
   </script>
 </body>
 </html>
