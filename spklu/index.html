@@ -6,7 +6,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="theme-color" content="#0a0a0a">
-  <link rel="manifest" href="manifest.json">
+  <link rel="manifest" href="data:application/json,%7B%22name%22%3A%22Peta%20SPKLU%20Motor%20Listrik%22%2C%22short_name%22%3A%22SPKLU%20Map%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%230a0a0a%22%2C%22theme_color%22%3A%22%230a0a0a%22%7D">
   <title>Peta SPKLU — Motor Listrik Jember–Bali</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <style>
@@ -659,7 +659,7 @@
   
     // ═══════════════════ SERVICE WORKER ═══════════════════
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('sw.js').catch(() => {});
+      navigator.serviceWorker.register('sw.js').catch(()=>{}); // offline optional
     }
   </script>
 </body>
